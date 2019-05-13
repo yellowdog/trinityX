@@ -5,6 +5,7 @@
   roles:
   - role: cloud/filesystem
     tags: filesystem
+    when: use_shared_blockdev
 
 - import_playbook: controller.yml
   vars:
@@ -38,8 +39,10 @@
       remote: '{{ aws.sharedfs_ip}}:/'
       options: 'nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2'
     tags: nfs-mounts
+    when: use_shared_blockdev
 
   - role: cloud/userspace
     when: '"cloud-controller" in groups'
     tags: userspace
+    when: not enable_openhpc
 
