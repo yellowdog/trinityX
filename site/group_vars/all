@@ -149,7 +149,7 @@ additional_env_modules: []
 
 # Install userspace packages from OpenHPC project
 
-enable_openhpc: false
+enable_openhpc: true
 
 # Local yum repository
 
