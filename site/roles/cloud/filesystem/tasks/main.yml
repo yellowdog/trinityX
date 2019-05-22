@@ -14,7 +14,7 @@
     opts: 'nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport'
     fstype: nfs4
     state: mounted
-  when: use_shared_blockdev
+  when: use_aws_nfs
 
 #- name: rename default /trinity dir
 #  shell: 'mv {{ trix_root }} {{trix_root }}-bkp'
