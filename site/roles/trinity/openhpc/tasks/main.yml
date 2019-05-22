@@ -3,6 +3,7 @@
   yum:
     name: https://github.com/openhpc/ohpc/releases/download/v1.3.GA/ohpc-release-1.3-1.el7.x86_64.rpm
     state: installed
+    tags: install-only
     
 - name: Ensure conflicting rpms from legacy TrinityX are not installed
   yum:
@@ -10,23 +11,27 @@
       - pdsh
       - environment-modules
     state: removed
+    tags: install-only
 
 - name: Install ohpc-base
   yum:
     name: ohpc-base
     state: installed
   when: ansible_connection not in 'lchroot'
+  tags: install-only
 
 - name: Install ohpc-base-compute
   yum:
     name: ohpc-base-compute
     state: installed
   when: ansible_connection in 'lchroot'
+  tags: install-only
     
 - name: Install lmod-ohpc
   yum:
     name: lmod-ohpc
     state: installed
+  tags: install-only
 
 - name: Update NFS exports
   template:
