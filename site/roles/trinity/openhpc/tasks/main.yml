@@ -11,7 +11,7 @@
       - pdsh
       - environment-modules
     state: removed
-    tags: install-only
+  tags: install-only
 
 - name: Install ohpc-base
   yum:
