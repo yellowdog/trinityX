@@ -12,7 +12,7 @@
     envmodules_default_list: []
 
 - hosts:
-    - controller
+    - controllers
 
   roles:
   - role: cloud/slurm-cloud

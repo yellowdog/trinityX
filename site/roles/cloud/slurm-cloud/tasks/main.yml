@@ -18,7 +18,6 @@
     owner: slurm
     group: slurm
   with_items:
-    - 'updatecloudqueues.py'
     - 'slurm-power.py'
     - 'slurm-power-on'
     - 'slurm-power-off'
