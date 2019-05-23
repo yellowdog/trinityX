@@ -151,6 +151,10 @@ additional_env_modules: []
 
 enable_openhpc: true
 
+# use aws NFS instance for cloud controllers
+
+use_aws_nfs: false
+
 # Local yum repository
 
 trix_local_reponame: 'trinityx-local'

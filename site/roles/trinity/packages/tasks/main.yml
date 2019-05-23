@@ -12,3 +12,14 @@
     name: '{{ tunables_packages }}'
     state: present
   tags: install-only
+  
+  - name: Enable haveged service
+  service:
+    name: haveged
+    enabled: yes
+
+- name: Start haveged service
+  service:
+    name: haveged
+    state: started
+  when: ansible_connection not in 'lchroot'

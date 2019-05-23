@@ -10,6 +10,7 @@
   vars:
     firewalld_trusted_interfaces: ['{{ ansible_default_ipv4.interface }}']
     envmodules_default_list: []
+    
 
 - hosts:
     - controllers
@@ -38,7 +39,7 @@
       remote: '{{ aws.sharedfs_ip}}:/'
       options: 'nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2'
     tags: nfs-mounts
-    when: use_shared_blockdev
+    when: use_aws_nfs
 
   - role: cloud/userspace
     when: 
