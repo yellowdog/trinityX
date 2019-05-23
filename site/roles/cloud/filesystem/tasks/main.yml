@@ -6,6 +6,7 @@
     group: root
     mode: '0755'
     state: directory
+  tags: install-only
 
 - name: mount the shared file system
   mount:
@@ -15,33 +16,46 @@
     fstype: nfs4
     state: mounted
   when: use_aws_nfs
+  tags: install-only
 
 #- name: rename default /trinity dir
 #  shell: 'mv {{ trix_root }} {{trix_root }}-bkp'
 #  args:
 #    creates: '{{ trix_root }}-bkp'
 
-- name: locate the EBS shared device
-  shell: lsblk  -fnpl | grep -A1 xfs | grep -v xfs | awk '{ print $1 }'
-  register: blockdev
-  changed_when: false
+######################################################################
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111111#
+# the following only works on first run, then the block dev is not   #
+# detected causing problems.  Changing openstack to read set         #
+# shared_blockdev=/dev/vdb or whatever it gets !TODO update AWS CFN! #
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111111#
+######################################################################
+
+#- name: locate the EBS shared device 
+#  shell: lsblk  -fnpl | grep -A1 xfs | grep -v xfs | awk '{ print $1 }'
+#  register: blockdev
+#  changed_when: false
+#  tags: install-only
 
 - name: format the shared block device
   filesystem:
     fstype: xfs
-    dev: '{{ blockdev.stdout }}'
+    dev: '{{ shared_blockdev }}'
+  tags: install-only
 
 - name: get the shared block device UUID
-  shell: blkid | grep '{{ blockdev.stdout }}' | awk '{ print $2 }' | tr -d '"'
+  shell: blkid | grep '{{ shared_blockdev }}' | awk '{ print $2 }' | tr -d '"'
   register: blockdev_uuid
   changed_when: false
+  tags: install-only
 
 - name: mount the shared block device on '{{ trix_root }}'
   mount:
-    src: '{{ blockdev_uuid.stdout }}'
+    src: '{{ shared_blockdev }}'
     path: '{{ trix_root }}'
     fstype: xfs
     state: mounted
+  tags: install-only
 
 #- name: copy '{{ trix_root }}-bkp' to '{{ trix_root }}'
 #  shell: 'rsync -raW -AX {{ trix_root }}-bkp/* {{ trix_root }}/'

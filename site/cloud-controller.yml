@@ -5,7 +5,6 @@
   roles:
   - role: cloud/filesystem
     tags: filesystem
-    when: use_shared_blockdev
 
 - import_playbook: controller.yml
   vars:
@@ -42,7 +41,8 @@
     when: use_shared_blockdev
 
   - role: cloud/userspace
-    when: '"cloud-controller" in groups'
+    when: 
+      - '"cloud-controller" in groups'
+      - not enable_openhpc
     tags: userspace
-    when: not enable_openhpc
 
