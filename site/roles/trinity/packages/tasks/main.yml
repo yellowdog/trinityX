@@ -13,7 +13,7 @@
     state: present
   tags: install-only
   
-  - name: Enable haveged service
+- name: Enable haveged service
   service:
     name: haveged
     enabled: yes
