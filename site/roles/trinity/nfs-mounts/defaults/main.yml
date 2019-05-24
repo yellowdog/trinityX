@@ -6,6 +6,6 @@ nfs_packages:
 
 nfs_enable_rdma: false
 nfs_mounts:
-  - path: '/trinity/shared'
-    remote: 'controller:/trinity/shared'
+  - path: '{{ trix_shared }}'
+    remote: 'controller:{{ trix_shared }}'
     options: 'defaults,nfsvers=4,ro,retrans=4'
