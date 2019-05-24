@@ -86,6 +86,7 @@ trix_shared: '{{ trix_root }}/shared'
 trix_local: '{{ trix_root }}/local'
 trix_home: '{{ trix_root }}/home'
 trix_repos: '{{ trix_root }}/repos'
+trix_ohpc: '{{ trix_root }}/ohpc'
 
 
 # Backend type and block device to use for the specified backend.
