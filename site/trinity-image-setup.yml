@@ -102,7 +102,7 @@
     nfs_enable_rdma: false
     nfs_mounts:
     - path: '/opt/ohpc/pub'
-      remote: '{{ trix_ctrl_hostname }}:/opt/ohpc/pub'
+      remote: '{{ trix_ctrl_hostname }}:/{{ trix_ohpc }}/pub'
       options: 'defaults,nfsvers=4,ro,retrans=4'
     when: enable_openhpc
     tags: nfs-mounts
