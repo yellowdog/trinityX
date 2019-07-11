@@ -17,6 +17,11 @@
   file:
     path: '/etc/systemd/system/multi-user.target.wants/firewalld.service'
     state: absent
+    
+- name: Toggle selinux state
+  selinux:
+    state: '{{ "enforcing" if enable_selinux else "disabled" }}'
+    policy: 'targeted'
 
 - name: Get image name
   set_fact:
