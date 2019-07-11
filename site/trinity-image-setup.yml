@@ -3,9 +3,8 @@
 
   roles:
   - role: trinity/init-nodes
-    tags: 
-      - init-nodes
-      - install-only
+    tags: init-nodes
+
 
   - role: trinity/repos
     repos:
