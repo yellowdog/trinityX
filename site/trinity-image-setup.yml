@@ -95,15 +95,16 @@
   - role: trinity/nscd
     tags: nscd
 
-  - role: trinity/openhpc
-    when: enable_openhpc
+  - role: trinity/openhpc base
+    when: enable_openhpc == true
     tags: openhpc
+
 
   - role: trinity/nfs-mounts
     nfs_enable_rdma: false
     nfs_mounts:
-    - path: '/opt/ohpc/pub'
-      remote: '{{ trix_ctrl_hostname }}:/{{ trix_ohpc }}/pub'
+    - path: '/opt/ohpc'
+      remote: '{{ trix_ctrl_hostname }}:/{{ trix_ohpc }}'
       options: 'defaults,nfsvers=4,ro,retrans=4'
-    when: enable_openhpc
+    when: enable_openhpc == true
     tags: nfs-mounts

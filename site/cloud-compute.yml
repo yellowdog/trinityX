@@ -1,9 +1,9 @@
 ---
 - import_playbook: trinity-image-setup.yml
   vars:
-    hostlist: cloud-computes
+    hostlist: cloudcomputes
 
-- hosts: cloud-computes
+- hosts: cloudcomputes
   roles:
     - role: trinity/nfs-mounts
       nfs_enable_rdma: false

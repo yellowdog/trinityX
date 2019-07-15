@@ -1,6 +1,6 @@
 ---
 - hosts:
-    - cloud-controller
+    - cloudcontroller
 
   roles:
   - role: cloud/filesystem
@@ -22,14 +22,14 @@
 
   - role: cloud/wireguard
     wg_server: false
-    when: '"cloud-controller" not in groups'
+    when: '"cloudcontroller" not in groups'
     tags: wireguard
 
   - role: trinity/firewalld
     firewalld_trusted_interfaces:
       - wg0
     firewalld_update_ifcfg_files: false
-    when: '"cloud-controller" not in groups'
+    when: '"cloudcontroller" not in groups'
     tags: firewalld
 
   - role: trinity/nfs-mounts
@@ -43,7 +43,7 @@
 
   - role: cloud/userspace
     when: 
-      - '"cloud-controller" in groups'
+      - '"cloudcontroller" in groups'
       - not enable_openhpc
     tags: userspace
 
