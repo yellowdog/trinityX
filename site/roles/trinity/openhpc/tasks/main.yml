@@ -1,4 +1,8 @@
 ---
+#- name: Display all variables/facts known for a host
+#  debug:
+#    var: hostvars[inventory_hostname]
+
 - name: Create trinity/ohpc dir for opt link to point at
   file:
     path: '{{ trix_ohpc }}'
@@ -6,7 +10,7 @@
     group: root
     state: directory
     mode: '0755'
-  when: '"cloudcontroller" in groups'
+  when: '"controllers" in group_names'
 
 - name: Create link so openhpc ends up on /trinity filesystem so that config data is not lost on an instance rebuild
   file:
@@ -15,7 +19,7 @@
     owner: root
     group: root
     state: link
-  when: '"cloudcontroller" in groups'
+  when: ansible_connection not in 'lchroot' and "controllers" in group_names
 
 
 - name: Install ohpc-release
@@ -34,21 +38,21 @@
   yum:
     name: ohpc-base
     state: installed
-  when: ansible_connection not in 'lchroot' or 'cloudcontroller' in group_names
+  when: ansible_connection not in 'lchroot' and "controllers" in group_names
 
 - name: Install ohpc-base-compute
   yum:
     name: ohpc-base-compute
     state: installed
-  when: ansible_connection not in 'lchroot' or 'cloudcontroller' in group_names
+  when: ansible_connection not in 'lchroot' and "controllers" in group_names
 
 - name: Install lmod dependencies on non-controller nodes
   yum:
-    name: 
+    name:
       - lua-filesystem-ohpc
       - lua-posix-ohpc
     state: installed
-  when: ansible_connection in 'lchroot' or 'cloudcontroller' not in group_names
+  when: ansible_connection not in 'lchroot' and "controllers" in group_names
 
 #todo copy /etc/profile.d/lmod.* to provisioning node from controller and copy it back out to computes
 
@@ -57,7 +61,8 @@
   yum:
     name: lmod-ohpc
     state: installed
-  when: ansible_connection not in 'lchroot' or 'cloudcontroller' in group_names
+  when: ansible_connection not in 'lchroot' and "controllers" in group_names
+
 
 - name: Update NFS exports
   template:
@@ -67,11 +72,11 @@
   notify:
     - Export NFS
 
-- file:
-    src: '{{ nfs_exports_path }}/ohpc.exports'
-    dest: '/etc/exports.d/ohpc.exports'
-    state: link
-    force: yes
-  when: primary | default(True) and ansible_connection not in 'lchroot'
-  notify:
-    - Export NFS
+#- file:
+#    src: '{{ nfs_exports_path }}/ohpc.exports'
+#    dest: '/etc/exports.d/ohpc.exports'
+#    state: link
+#    force: yes
+#  when: primary | default(True) and ansible_connection not in 'lchroot'
+#  notify:
+#    - Export NFS

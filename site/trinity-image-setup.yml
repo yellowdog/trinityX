@@ -95,7 +95,7 @@
   - role: trinity/nscd
     tags: nscd
 
-  - role: trinity/openhpc base
+  - role: trinity/openhpc
     when: enable_openhpc == true
     tags: openhpc
 
