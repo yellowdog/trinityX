@@ -51,6 +51,7 @@
     name:
       - lua-filesystem-ohpc
       - lua-posix-ohpc
+      - lua-bit-ohpc
     state: installed
   when: ansible_connection not in 'lchroot' and "controllers" in group_names
 
@@ -72,11 +73,11 @@
   notify:
     - Export NFS
 
-#- file:
-#    src: '{{ nfs_exports_path }}/ohpc.exports'
-#    dest: '/etc/exports.d/ohpc.exports'
-#    state: link
-#    force: yes
-#  when: primary | default(True) and ansible_connection not in 'lchroot'
-#  notify:
-#    - Export NFS
+- file:
+    src: '{{ nfs_exports_path }}/ohpc.exports'
+    dest: '/etc/exports.d/ohpc.exports'
+    state: link
+    force: yes
+  when: primary | default(True) and ansible_connection not in 'lchroot'
+  notify:
+    - Export NFS

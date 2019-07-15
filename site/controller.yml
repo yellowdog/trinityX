@@ -197,7 +197,7 @@
 
     - role: trinity/openhpc
       nfs_exports_path: '{{ trix_local }}/etc/exports.d'
-      when: enable_openhpc
+      when: enable_openhpc == true
       tags: openhpc
 
     - role: trinity/wrapup
