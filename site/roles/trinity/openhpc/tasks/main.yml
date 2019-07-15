@@ -53,7 +53,7 @@
       - lua-posix-ohpc
       - lua-bit-ohpc
     state: installed
-  when: ansible_connection not in 'lchroot' and "controllers" in group_names
+  when: ansible_connection in 'lchroot' or "controllers" not in group_names
 
 #todo copy /etc/profile.d/lmod.* to provisioning node from controller and copy it back out to computes
 
@@ -62,7 +62,7 @@
   yum:
     name: lmod-ohpc
     state: installed
-  when: ansible_connection not in 'lchroot' and "controllers" in group_names
+  when: ansible_connection in 'lchroot' or "controllers" not in group_names
 
 
 - name: Update NFS exports
