@@ -42,10 +42,21 @@
     state: present
   tags: install-only
   when: enable_openhpc == false
-  
+
 - name: ensure legacy slurm rpms are not installed before configuring ohpc versions
   yum:
     name: '{{ slurm_packages }}'
+    state: removed
+  tags: install-only
+  when: enable_openhpc == true
+
+- name: ensure legacy munge rpms are not installed before configuring ohpc versions
+  yum:
+    name:
+      - munge
+      - munge-libs
+      - pmix
+      - pmix-devel
     state: removed
   tags: install-only
   when: enable_openhpc == true
