@@ -114,22 +114,26 @@
     path: '/etc/slurm'
   register: default_slurm_path
 
-- block:
-
-  - name: Delete default configuration
-    file:
-      path: '/etc/slurm'
-      state: absent
-
-  - name: Replace default configuration path with symlink to {{ slurm_conf_path }}
-    file:
-      src: '{{ slurm_conf_path }}'
-      dest: '/etc/slurm'
-      state: link
-      force: yes
-
+- name: Delete default configuration
+  file:
+    path: '/etc/slurm'
+    state: absent
   when: slurm_conf_path|string not in '/etc/slurm'
+        and default_slurm_path.stat.exists == true
         and default_slurm_path.stat.isdir
+
+- name: Get /etc/slurm status
+  stat:
+    path: '/etc/slurm'
+  register: default_slurm_path
+
+- name: Replace default configuration path with symlink to {{ slurm_conf_path }}
+  file:
+    src: '{{ slurm_conf_path }}'
+    dest: '/etc/slurm'
+    state: link
+    force: yes
+  when: default_slurm_path.stat.exists == false
 
 - name: Enable slurm controller services
   service:
