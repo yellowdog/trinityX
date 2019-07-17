@@ -41,14 +41,14 @@
     name: '{{ slurm_packages }}'
     state: present
   tags: install-only
-  when: openhpc == false
+  when: enable_openhpc == false
 
 - name: Install ohpc slurm packages
   yum:
     name: '{{ slurm_packages }}'
     state: present
   tags: install-only
-  when: openhpc == true
+  when: enable_openhpc == true
 
 
 - name: Create systemd unit dirs
