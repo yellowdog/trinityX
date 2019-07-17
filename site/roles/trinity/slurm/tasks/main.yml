@@ -42,10 +42,17 @@
     state: present
   tags: install-only
   when: enable_openhpc == false
-
-- name: Install ohpc slurm packages
+  
+- name: ensure legacy slurm rpms are not installed before configuring ohpc versions
   yum:
     name: '{{ slurm_packages }}'
+    state: removed
+  tags: install-only
+  when: enable_openhpc == true
+  
+- name: Install ohpc slurm packages
+  yum:
+    name: '{{ slurm_packages_ohpc }}'
     state: present
   tags: install-only
   when: enable_openhpc == true
