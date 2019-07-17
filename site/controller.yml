@@ -11,14 +11,14 @@
 
     - role: trinity/local_repo
       tags: local_repo
-      when: local_install
+      when: local_install|bool
 
     - role: trinity/repos
       repos:
       - repo: '{{ trix_local_repo_baseurl }}'
         name: '{{ trix_local_reponame }}'
       tags: local_repo
-      when: local_install
+      when: local_install|bool
 
     - role: trinity/repos
       repos:
@@ -124,6 +124,11 @@
       mariadb_db_path: '{{ trix_local }}/var/lib/mysql'
       tags: mariadb
 
+    - role: trinity/openhpc
+      nfs_exports_path: '{{ trix_local }}/etc/exports.d'
+      when: enable_openhpc == true
+      tags: openhpc
+
     - role: trinity/slurm
       slurm_ctrl: '{{ trix_ctrl_hostname }}'
       slurm_ctrl_ip: '{{ trix_ctrl_ip }}'
@@ -194,11 +199,6 @@
       docker_ssl_cert: '{{ ansible_fqdn }}.crt'
       docker_ssl_key: '{{ ansible_fqdn }}.key'
       tags: docker-registry
-
-    - role: trinity/openhpc
-      nfs_exports_path: '{{ trix_local }}/etc/exports.d'
-      when: enable_openhpc == true
-      tags: openhpc
 
     - role: trinity/wrapup
       tags: wrapup

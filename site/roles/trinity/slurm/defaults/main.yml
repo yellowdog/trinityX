@@ -2,17 +2,21 @@
 # vars file for luna
 
 slurm_packages:
-  - slurm
-  - slurm-contribs
-  - slurm-devel
-  - slurm-munge
-  - slurm-openlava
-  - slurm-pam_slurm
-  - slurm-perlapi
-  - slurm-plugins
-  - slurm-slurmdbd
-  - slurm-sql
-  - slurm-torque
+  - slurm-ohpc
+  - slurm-slurmctld-ohpc
+  - slurm-slurmd-ohpc
+  - slurm-contribs-ohpc
+  - slurm-devel-ohpc
+  - pmix-ohpc
+  - slurm-libpmi-ohpc
+  - munge-libs-ohpc
+  - munge-ohpc
+  - slurm-openlava-ohpc
+  - slurm-pam_slurm-ohpc
+  - slurm-perlapi-ohpc
+  - slurm-slurmdbd-ohpc
+  - slurm-sview-ohpc
+  - slurm-torque-ohpc
 
 slurm_conf_path: '/etc/slurm'
 slurm_spool_path: '/var/spool/slurm'

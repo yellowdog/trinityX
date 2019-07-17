@@ -41,6 +41,15 @@
     name: '{{ slurm_packages }}'
     state: present
   tags: install-only
+  when: openhpc == false
+
+- name: Install ohpc slurm packages
+  yum:
+    name: '{{ slurm_packages }}'
+    state: present
+  tags: install-only
+  when: openhpc == true
+
 
 - name: Create systemd unit dirs
   file:
