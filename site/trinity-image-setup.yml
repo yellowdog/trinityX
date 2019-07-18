@@ -65,6 +65,10 @@
     sss_filter_enabled: '{{ not enable_slurm_pam }}'
     tags: sssd
 
+  - role: trinity/openhpc
+    when: enable_openhpc == true
+    tags: openhpc
+
   - role: trinity/slurm
     slurm_conf_path: '{{ trix_shared }}/etc/slurm'
     slurm_spool_path: '{{ trix_shared }}/var/spool/slurm'
@@ -94,11 +98,6 @@
 
   - role: trinity/nscd
     tags: nscd
-
-  - role: trinity/openhpc
-    when: enable_openhpc == true
-    tags: openhpc
-
 
   - role: trinity/nfs-mounts
     nfs_enable_rdma: false
