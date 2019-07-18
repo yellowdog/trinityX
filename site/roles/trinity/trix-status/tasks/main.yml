@@ -4,4 +4,4 @@
     name: trix-status
     state: present
   tags: install-only
-
+  when: enable_openhpc == false
