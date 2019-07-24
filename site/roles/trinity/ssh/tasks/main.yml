@@ -43,9 +43,6 @@
     mode: '0644'
     owner: root
     group: root
-  with_together:
-    - [ 'sshd_config', 'ssh_config']
-    - [ '0600', '0644' ]
   notify: restart sshd
 
 - name: create sshd configuration file from template
