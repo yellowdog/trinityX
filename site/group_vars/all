@@ -144,6 +144,9 @@ enable_heartbeat_link: true
 
 enable_docker: false
 
+# allow ssh password login by default (set to yes or no not true or false)
+allow_password_login: no
+
 # List of additional environment modules to install
 
 additional_env_modules: []

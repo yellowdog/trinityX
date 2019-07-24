@@ -37,6 +37,12 @@
     - [ '0600', '0644' ]
   notify: restart sshd
 
+- name: Add script to create a default ssh cluster key if none already exists
+  src: 'create_ssh_key.sh'
+  dest: '/etc/profile.d/create_ssh_key.sh'
+  owner: root
+  group: root
+  
 - name: Start and enable sshd daemon
   service:
     name: sshd
