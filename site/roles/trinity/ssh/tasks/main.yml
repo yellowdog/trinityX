@@ -25,11 +25,22 @@
     state: present
     key: '{{ lookup("file", "/root/.ssh/id_rsa.pub") }}'
 
-- name: Update ssh and sshd configuration files
+#- name: Update ssh and sshd configuration files
+#  copy:
+#    src: '{{ item.0 }}'
+#    dest: '/etc/ssh/{{ item.0 }}'
+#    mode: '{{ item.1 }}'
+#    owner: root
+#    group: root
+#  with_together:
+#    - [ 'sshd_config', 'ssh_config']
+#    - [ '0600', '0644' ]
+#  notify: restart sshd
+- name: Update ssh configuration file
   copy:
-    src: '{{ item.0 }}'
-    dest: '/etc/ssh/{{ item.0 }}'
-    mode: '{{ item.1 }}'
+    src: 'ssh_config'
+    dest: '/etc/ssh/ssh_config'
+    mode: '0644'
     owner: root
     group: root
   with_together:
@@ -37,12 +48,22 @@
     - [ '0600', '0644' ]
   notify: restart sshd
 
+- name: create sshd configuration file from template
+  template:
+    src: 'sshd_config'
+    dest: '/etc/ssh/sshd_config'
+    mode: '600'
+    owner: root
+    group: root
+  notify: restart sshd
+
 - name: Add script to create a default ssh cluster key if none already exists
-  src: 'create_ssh_key.sh'
-  dest: '/etc/profile.d/create_ssh_key.sh'
-  owner: root
-  group: root
-  
+  copy:
+    src: 'create_ssh_key.sh'
+    dest: '/etc/profile.d/create_ssh_key.sh'
+    owner: root
+    group: root
+
 - name: Start and enable sshd daemon
   service:
     name: sshd
