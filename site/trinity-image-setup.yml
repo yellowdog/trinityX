@@ -99,6 +99,10 @@
   - role: trinity/nscd
     tags: nscd
 
+  - role: trinity/graphical_desktop
+    when: '"vncnodes" in group_names'
+    tags: graphical_desktop
+
   - role: trinity/nfs-mounts
     nfs_enable_rdma: false
     nfs_mounts:

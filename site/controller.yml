@@ -199,6 +199,10 @@
       docker_ssl_cert: '{{ ansible_fqdn }}.crt'
       docker_ssl_key: '{{ ansible_fqdn }}.key'
       tags: docker-registry
+    
+    - role: trinity/ood-modules
+      when: enable_vnc_to_nodes == true
+      tags: ood-modules
 
     - role: trinity/wrapup
       tags: wrapup

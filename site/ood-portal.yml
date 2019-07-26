@@ -1,0 +1,33 @@
+---
+- import_playbook: trinity-image-setup.yml
+  vars:
+    hostlist: ood
+
+- hosts: ood
+  roles:
+    - role: trinity/nfs-mounts
+      nfs_enable_rdma: false
+      nfs_mounts:
+      - path: '{{ aws.sharedfs_mountpoint }}'
+        remote: '{{ aws.sharedfs_ip}}:/{{ trix_shared }}'
+        options: 'nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2'
+      tags: nfs-mounts
+
+    - role: trinity/ood-portal
+      slurm_controller: '{{ trix_ctrl_hostname }}'
+      ldap_hosts: 
+        - '{{ trix_ctrl_hostname }}.{{ trix_domain }}'
+      login_host: '{{ trix_ctrl_hostname }}'
+      tags: ood
+- hosts: vncnodes
+  roles:
+  - role: trinity/graphical_desktop
+    tags: graphical_desktop
+
+- hosts: controllers
+  roles:
+    - role: trinity/ood-modules
+      tags: ood-modules
+      
+
+    

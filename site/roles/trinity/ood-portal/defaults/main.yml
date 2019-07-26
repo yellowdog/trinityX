@@ -1,0 +1,14 @@
+---
+# vars file for ood-portal
+
+ldap_hosts:
+  - 'controller.cluster'
+
+ood_portal_cfg_path: /etc/ood/config/
+
+cluster_name: Gwydion
+slurm_controller: controller.cluster
+login_host: controller.cluster
+enable_vnc_to_nodes: false
+vnc_idle_timeout: 180
+vnc_desktop: xfce
