@@ -271,8 +271,7 @@
 
   - name: wait 10s after starting slurmdbd
     wait_for:
-      timeout: 300
-    delegate_to: localhost
+      timeout: 10
 
   - name: Start slurmctld services
     service:
