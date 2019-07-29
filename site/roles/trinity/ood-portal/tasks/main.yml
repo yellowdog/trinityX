@@ -35,6 +35,31 @@
     mode: '0644'
     owner: root
     group: root
+
+- name: listen on port 8080 if we are on the controller node
+  lineinfile:
+    path: '{{ ood_portal_cfg_path }}/ood_portal.yml'
+    line: 'port=8080'
+    state: present
+  when: '"controllers" in group_names'
+
+- name: remove default apache pages
+  file:
+    path: {{ item }}
+    state: absent
+  with_items:
+    - /opt/rh/httpd24/root/etc/httpd/conf.d/welcome.conf
+    - /opt/rh/httpd24/root/etc/httpd/conf.d/userdir.conf
+    - /opt/rh/httpd24/root/etc/httpd/conf.d/ssl.conf
+    - /opt/rh/httpd24/root/etc/httpd/conf.d/autoindex.conf
+
+- name: do not listen on port 8080 if we are not on the controller node
+  lineinfile:
+    path: '{{ ood_portal_cfg_path }}/ood_portal.yml'
+    line: 'port=8080'
+    state: absent
+  when: '"controllers" not in group_names'
+
 - name: Render ood_portal cluster config file
   template:
     src: 'cluster_definition.yml'

@@ -1,9 +1,9 @@
 ---
 ssl_cert_path: '/etc/ssl/certs'
-ssl_cert_country: 'NL'
-ssl_cert_locality: 'Amsterdam'
-ssl_cert_organization: 'ClusterVision B.V.'
-ssl_cert_state: 'Noord Holland'
+ssl_cert_country: 'UK'
+ssl_cert_locality: 'London'
+ssl_cert_organization: 'BIOS-IT'
+ssl_cert_state: 'London'
 ssl_cert_altname: 'controller.cluster'
 
 ssl_cert_days: '3650'
