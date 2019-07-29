@@ -45,7 +45,7 @@
 
 - name: remove default apache pages
   file:
-    path: {{ item }}
+    path: '{{ item }}'
     state: absent
   with_items:
     - /opt/rh/httpd24/root/etc/httpd/conf.d/welcome.conf
