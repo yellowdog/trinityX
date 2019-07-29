@@ -69,7 +69,7 @@
       - /opt/ohpc/pub/apps/websockify/0.8.0/lib/python/
 
   - name: build and install websockify into /opt/ohpc/apps/websockify
-    shell: PYTHONPATH=/opt/ohpc/pub/apps/websockify/0.8.0/lib/python python ./setup.py install --home=/opt/ohpc/pub/apps/websockify/0.8.0
+    shell: PYTHONPATH=/opt/ohpc/pub/apps/websockify/0.8.0/lib/python python36 ./setup.py install --home=/opt/ohpc/pub/apps/websockify/0.8.0
     args:
       chdir: /tmp/websockify
   - name: delete websockify git repo from /tmp
