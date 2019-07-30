@@ -307,3 +307,22 @@
   when: primary|default(True)
         and ansible_connection not in 'lchroot'
         and not compute|default(False)
+
+- name: Enable munge service on passive slurm nodes (portal services etc)
+  service:
+    daemon_reload: yes
+    name: '{{ item }}'
+    enabled: true
+  when: not on_controller|bool
+        and not compute|bool
+  with_items:
+    - munge
+- name: start munge service on passive slurm nodes (portal services etc)
+  service:
+    daemon_reload: yes
+    name: '{{ item }}'
+    state: started
+  when: not on_controller|bool
+        and not compute|bool
+  with_items:
+    - munge
