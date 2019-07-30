@@ -77,6 +77,25 @@
     group: root
   when: enable_vnc_to_nodes == true
 
+- name: Copy vscaler branding  to /var/www/ood/public 
+  copy:
+    src: vscaler/{{ item }}
+    dest: /var/www/ood/public/{{ item }}
+  with_items:
+    - favicon.ico
+    - intro-vid.jpg
+    - logo_color_black_padded.png
+    - vscaler_header.jpg
+  when: ood_portal_brand == "vscaler"
+
+# we should try to work out a way to do this with the replace module but the following regex doesn't match and I don't know why
+# 'regexp: (    welcome_html: \|\n)(      .+\n)+'
+- name: replace /var/www/ood/apps/sys/dashboard/config/locales/en.yml with vscaler branded one
+  copy:
+    src: vscaler/en.yml
+    dest: /var/www/ood/apps/sys/dashboard/config/locales/en.yml
+  when: ood_portal_brand == "vscaler"
+
 - name: run update_ood_portal to generate webserver config file
   command: '/opt/ood/ood-portal-generator/sbin/update_ood_portal'
   register: command_result

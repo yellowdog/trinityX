@@ -12,3 +12,5 @@ login_host: controller.cluster
 enable_vnc_to_nodes: false
 vnc_idle_timeout: 180
 vnc_desktop: xfce
+
+ood_portal_brand:
