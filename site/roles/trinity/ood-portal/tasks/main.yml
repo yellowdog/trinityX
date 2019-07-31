@@ -75,6 +75,7 @@
     mode: '0644'
     owner: root
     group: root
+    backup: yes
   when: enable_vnc_to_nodes == true
 
 - name: Copy vscaler branding  to /var/www/ood/public 
@@ -88,13 +89,19 @@
     - vscaler_header.jpg
   when: ood_portal_brand == "vscaler"
 
-# we should try to work out a way to do this with the replace module but the following regex doesn't match and I don't know why
-# 'regexp: (    welcome_html: \|\n)(      .+\n)+'
-- name: replace /var/www/ood/apps/sys/dashboard/config/locales/en.yml with vscaler branded one
-  copy:
-    src: vscaler/en.yml
-    dest: /var/www/ood/apps/sys/dashboard/config/locales/en.yml
+- name: Apply vscaler welcome_html branding if appropriate
+  replace:
+    path: '/home/antony/Testing/en.yml'
+    regexp: '(    welcome_html: |\n)(      .+\n)+'
+    replace: '\1      {{ ood_welcome_text_branding.vscaler|join("\n      ")}}\n'
   when: ood_portal_brand == "vscaler"
+
+  - name: Apply vscaler pun_custom_env branding if appropriate
+    blockinfile:
+      path: '/home/antony/Testing/nginx_stage.yml'
+      block: '{{ ood_pun_custom_env_branding.vscaler }}'
+      marker: "# {mark} ANSIBLE MANAGED BLOCK for pun_custom_env"
+    when: '"cloudcontroller" not in group_names'
 
 - name: run update_ood_portal to generate webserver config file
   command: '/opt/ood/ood-portal-generator/sbin/update_ood_portal'
