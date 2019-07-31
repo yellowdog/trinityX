@@ -92,7 +92,7 @@
 - name: Apply vscaler welcome_html branding if appropriate
   replace:
     path: '/var/www/ood/apps/sys/dashboard/config/locales/en.yml'
-    regexp: '(    welcome_html: |\n)(      .+\n)+'
+    regexp: '(    welcome_html: \|\n)(      .+\n)+'
     replace: '\1      {{ ood_welcome_text_branding.vscaler|join("\n      ")}}\n'
     backup: yes
   when: ood_portal_brand == "vscaler"

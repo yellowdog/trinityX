@@ -23,7 +23,7 @@ ood_welcome_text_branding:
 ood_pun_custom_env_branding:
   vscaler: |
     pun_custom_env:
-      OOD_DASHBOARD_TITLE: "vScaler Cluster Portal2"
+      OOD_DASHBOARD_TITLE: "vScaler Cluster Portal"
       OOD_BRAND_BG_COLOR: "#f8f8f8"
       OOD_BRAND_LINK_ACTIVE_BG_COLOR: "#f2bb02"
       OOD_DASHBOARD_LOGO: "/public/vscaler_header.jpg"
