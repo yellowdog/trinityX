@@ -94,6 +94,7 @@
     path: '/var/www/ood/apps/sys/dashboard/config/locales/en.yml'
     regexp: '(    welcome_html: |\n)(      .+\n)+'
     replace: '\1      {{ ood_welcome_text_branding.vscaler|join("\n      ")}}\n'
+    backup: yes
   when: ood_portal_brand == "vscaler"
 
 - name: Apply vscaler pun_custom_env branding if appropriate
@@ -101,6 +102,7 @@
     path: '/etc/ood/config/nginx_stage.yml'
     block: '{{ ood_pun_custom_env_branding.vscaler }}'
     marker: "# {mark} ANSIBLE MANAGED BLOCK for pun_custom_env"
+    backup: yes
   when: '"cloudcontroller" not in group_names'
 
 - name: run update_ood_portal to generate webserver config file
