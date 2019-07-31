@@ -91,14 +91,14 @@
 
 - name: Apply vscaler welcome_html branding if appropriate
   replace:
-    path: '/home/antony/Testing/en.yml'
+    path: '/var/www/ood/apps/sys/dashboard/config/locales/en.yml'
     regexp: '(    welcome_html: |\n)(      .+\n)+'
     replace: '\1      {{ ood_welcome_text_branding.vscaler|join("\n      ")}}\n'
   when: ood_portal_brand == "vscaler"
 
 - name: Apply vscaler pun_custom_env branding if appropriate
   blockinfile:
-    path: '/home/antony/Testing/nginx_stage.yml'
+    path: 'etc/ood/config/nginx_stage.yml'
     block: '{{ ood_pun_custom_env_branding.vscaler }}'
     marker: "# {mark} ANSIBLE MANAGED BLOCK for pun_custom_env"
   when: '"cloudcontroller" not in group_names'
