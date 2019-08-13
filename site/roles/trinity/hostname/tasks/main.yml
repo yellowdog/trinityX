@@ -20,7 +20,10 @@
     block: |
       {{trix_ctrl_ip}}    {{trix_ctrl_hostname}}.{{trix_domain}} {{trix_ctrl_hostname}}
   when: not ha|default(False)
-
+- name: Set compute Node Hostname to inventory_hostname)
+  hostname: 
+    name: "{{inventory_hostname_short}}.{{trix_domain}}"
+  when: "'controllers' not in group_names and use_inventory_hostname|bool"
 - name: Re-gather facts
   action: setup
 
