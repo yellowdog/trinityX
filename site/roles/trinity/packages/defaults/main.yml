@@ -78,6 +78,8 @@ tunables_packages:
   - python36
   - python36-pip
   - python-hostlist
+  - python-netaddr
+  - python36-netaddr
   - rsync
   - screen
   - sg3_utils
