@@ -1,0 +1,18 @@
+$ORIGIN .
+$TTL 604800     ; 1 week
+{{ item.0 }}       IN SOA  {{ trix_ctrl_hostname }}.{{ item.0 }}. root.{{ trix_ctrl_hostname }}.{{ item.0 }}. (
+                                64         ; serial
+                                86400      ; refresh (1 day)
+                                14400      ; retry (4 hours)
+                                3628800    ; expire (6 weeks)
+                                604800     ; minimum (1 week)
+                                )
+                        NS      {{ trix_ctrl_hostname }}.{{ item.0 }}.
+                        A       {{ trix_ctrl_ip }}
+$ORIGIN {{ item.0 }}.
+$TTL 604800     ; 1 week
+{% for host in groups['all'] %}
+{% for IP in hostvars[host]['ansible_all_ipv4_addresses']| ipaddr(item.1) %}
+{{ '%-50s A %20s' % (host,IP) }}
+{% endfor %}
+{% endfor %}
