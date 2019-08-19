@@ -71,21 +71,6 @@
       {% endif %}
   notify: restart named
 
-- name: Build internal zone(s) from Inventory (default disabled, incompatible with luna)
-  template:
-    src: dns_forward_zone
-    dest: '{{ trix_local }}/var/lib/named/{{ item.0 }}.zone'
-    mode: 0644
-    owner: named
-    group: named
-    setype: named_zone_t
-    seuser: system_u
-  with_together:
-    - ['{{ trix_domain }}']
-    - ['{{ trix_cluster_net}}/{{trix_cluster_netprefix}}']
-  notify: restart named
-  when: build_zones_from_inventory|bool and primary|bool
-
 - name: Render /etc/resolv.conf
   template:
     src: "resolv.conf"
@@ -111,6 +96,22 @@
     shell: rsync -raW -AX /var/named/* {{ bind_db_path }}
     args:
       creates: '{{ bind_db_path }}/named.empty'
+    when: not build_zones_from_inventory|bool
+
+  - name: Build internal zone(s) from Inventory (default disabled, incompatible with luna)
+    template:
+      src: dns_forward_zone
+      dest: '{{ trix_local }}/var/lib/named/{{ item.0 }}.zone'
+      mode: 0644
+      owner: named
+      group: named
+      setype: named_zone_t
+      seuser: system_u
+    with_together:
+      - ['{{ trix_domain }}']
+      - ['{{ trix_cluster_net}}/{{trix_cluster_netprefix}}']
+    notify: restart named
+    when: build_zones_from_inventory|bool
 
   - name: Start named service
     service:
