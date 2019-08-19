@@ -124,6 +124,9 @@
         - '{{ trix_ctrl_hostname }}.{{ trix_domain }}'
       tags: sssd
 
+    - role: trinity/create-default-users
+      tags: create-default-users
+      
     - role: trinity/mariadb
       mariadb_db_path: '{{ trix_local }}/var/lib/mysql'
       tags: mariadb

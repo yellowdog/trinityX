@@ -111,6 +111,12 @@
       - ['{{ trix_cluster_net}}/{{trix_cluster_netprefix}}']
     notify: restart named
     when: build_zones_from_inventory|bool
+    
+  - name: debug hostnames and IPs of all nodes
+    debug:
+      msg: "{{ item }} has IPs: {{hostvars[item]['ansible_all_ipv4_addresses']}}"
+    with_items: '{{groups["all"]}}'
+    when: build_zones_from_inventory|bool
 
   - name: Start named service
     service:
