@@ -111,7 +111,15 @@
       - ['{{ trix_cluster_net}}/{{trix_cluster_netprefix}}']
     notify: restart named
     when: build_zones_from_inventory|bool
-    
+
+  - name: Include zone files in named conf
+    lineinfile:
+      path: '/etc/named.conf'
+      line: 'include "{{ trix_local }}/var/lib/named/{{ item }}.zone";'
+    with_items:
+      - ['{{ trix_domain }}']
+    notify: restart named
+
   - name: debug hostnames and IPs of all nodes
     debug:
       msg: "{{ item }} has IPs: {{hostvars[item]['ansible_all_ipv4_addresses']}}"
