@@ -96,7 +96,6 @@
     shell: rsync -raW -AX /var/named/* {{ bind_db_path }}
     args:
       creates: '{{ bind_db_path }}/named.empty'
-    when: not build_zones_from_inventory|bool
 
   - name: Build internal zone(s) from Inventory (default disabled, incompatible with luna)
     template:
