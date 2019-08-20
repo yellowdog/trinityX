@@ -255,11 +255,14 @@
 
   - name: Render slurm-nodes.conf when not using luna
     template:
-      src: 'slurm-nodes.conf'
-      dest: '{{ slurm_conf_path }}/slurm-nodes.conf'
+      src: '{{item}}'
+      dest: '{{ slurm_conf_path }}/{{item}}'
       mode: '0644'
       backup: yes
     when: build_zones_from_inventory|bool
+    with_items:
+      - 'slurm-nodes.conf'
+      - 'slurm-partitions.conf'
     notify: restart slurm
 
   - name: Set UsePAM to 1 in slurm-user.conf
