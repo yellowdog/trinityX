@@ -253,6 +253,15 @@
       - ['0644', '0640']
     notify: restart slurm
 
+  - name: Render slurm-nodes.conf when not using luna
+    template:
+      src: 'slurm-nodes.conf'
+      dest: '{{ slurm_conf_path }}/slurm-nodes.conf'
+      mode: '0644'
+      backup: yes
+    when: build_zones_from_inventory|bool
+    notify: restart slurm
+
   - name: Set UsePAM to 1 in slurm-user.conf
     lineinfile:
       path: '{{ slurm_conf_path }}/slurm-user.conf'
