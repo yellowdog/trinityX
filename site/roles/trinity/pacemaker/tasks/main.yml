@@ -5,7 +5,7 @@
     src: interface
     dest: "/etc/sysconfig/network-scripts/ifcfg-{{ctrl1_hb_nic}}"
   when: primary|bool and build_zones_from_inventory|bool
-  notify: restart networking
+  notify: restart network
 
 - name: configure heartbeat interface on secondary if not using luna
   template:
