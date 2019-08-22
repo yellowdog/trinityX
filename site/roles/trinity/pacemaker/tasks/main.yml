@@ -104,7 +104,7 @@
     until: result.rc == 0
     retries: 5
     delay: 10
-    with_items: '{{ pacemaker_resource_defaults }}'9DAu0I751AbFsT7e74ve
+    with_items: '{{ pacemaker_resource_defaults }}'
 
   - name: Add primary dummy resource
     pcs_resource:
