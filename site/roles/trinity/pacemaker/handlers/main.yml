@@ -5,3 +5,8 @@
   service:
     name: corosync
     state: restarted
+    
+- name: restart networking
+  service:
+    name: networking
+    state: restarted
