@@ -6,7 +6,7 @@
     name: corosync
     state: restarted
     
-- name: restart networking
+- name: restart network
   service:
-    name: networking
+    name: network
     state: restarted
