@@ -1,19 +1,5 @@
 ---
-# tasks file for pacemaker
-- name: configure heartbeat interface on primary if not using luna
-  template:
-    src: interface
-    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ctrl1_hb_nic}}"
-  when: primary|bool and build_zones_from_inventory|bool
-  notify: restart network
-
-- name: configure heartbeat interface on secondary if not using luna
-  template:
-    src: interface
-    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ctrl1_hb_nic}}"
-  when: not primary|bool and build_zones_from_inventory|bool
-  notify: restart network
-    
+# tasks file for pacemaker  
 - name: Generate hacluster password and save it to  /etc/trinity/passwords
   set_fact:
     tmp_pwd: "{{ lookup('password',
