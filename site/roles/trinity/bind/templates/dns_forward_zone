@@ -11,6 +11,9 @@ $TTL 604800     ; 1 week
                         A       {{ trix_ctrl_ip }}
 $ORIGIN {{ item.0 }}.
 $TTL 604800     ; 1 week
+{% if ha %}
+{{ '%-50s A %20s' % (trix_ctrl_hostname,trix_ctrl_ip) }}
+{% endif %}
 {% for host in groups['all'] %}
 {% for IP in hostvars[host]['ansible_all_ipv4_addresses']| ipaddr(item.1) %}
 {{ '%-50s A %20s' % (host,IP) }}
