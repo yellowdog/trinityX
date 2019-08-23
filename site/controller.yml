@@ -4,7 +4,8 @@
   gather_facts: yes
 
 - hosts: controllers
-
+  gather_facts: no # already done for all
+  any_errors_fatal: True
 # List of roles to apply to the controllers, in the order in which they will run.
 # NOTE: These and their default configurations can be found in the "roles/"
 #       directory.
@@ -42,6 +43,22 @@
 
     - role: trinity/hostname
       tags: hostname
+
+    - role: ome.network
+      - device: {{ctrl1_hb_nic}}
+        ip: {{ctrl1_hb_ip}}
+        dns1: 8.8.8.8
+        dns2: 8.8.4.4
+      when: ha and primary|bool and build_zones_from_inventory|bool
+      tags: configure-nics
+    
+    - role: ome.network
+      - device: {{ctrl2_hb_nic}}
+        ip: {{ctrl2_hb_ip}}
+        dns1: 8.8.8.8
+        dns2: 8.8.4.4
+      when: ha and not primary|bool and build_zones_from_inventory|bool
+      tags: configure-nics
 
     - role: trinity/firewalld
       tags: firewalld
