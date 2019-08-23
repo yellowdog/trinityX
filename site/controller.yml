@@ -47,6 +47,7 @@
     - role: ome.network
       network_ifaces:
       - device: '{{ctrl1_hb_nic}}'
+        bootproto: dhcp
         dns1: 8.8.8.8
         dns2: 8.8.4.4
       when: ha and primary|bool and build_zones_from_inventory|bool
@@ -55,10 +56,10 @@
     - role: ome.network
       network_ifaces:
       - device: '{{ctrl2_hb_nic}}'
+        bootproto: dhcp
         dns1: 8.8.8.8
         dns2: 8.8.4.4
       when: ha and not primary|bool and build_zones_from_inventory|bool
-      tags: configure-nics
 
     - role: trinity/firewalld
       tags: firewalld
