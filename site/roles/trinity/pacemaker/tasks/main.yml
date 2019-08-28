@@ -187,18 +187,17 @@
   - name: install python-devel (needed to install python nova client using pip)
     yum:
       name: python-devel
-    state: present
+      state: present
     when: fence_openstack_enabled|bool
     tags: fencing
 
   - name: install python openstack, heat and nova clients for use with the openstack fence agent
     pip:
-      name: {{ item }}
-    state: present
-    with_items:
-      - python-openstackclient
-      - python-novaclient
-      - python-heatclient
+      name:
+        - python-openstackclient
+        - python-novaclient
+        - python-heatclient
+      state: present
     when: fence_openstack_enabled|bool
     tags: fencing
 
