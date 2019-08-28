@@ -184,6 +184,45 @@
     when: fence_ipmilan_enabled == 'true'
     tags: fencing
 
+  - name: install python-devel (needed to install python nova client using pip)
+    yum:
+      name: python-devel
+    state: present
+    when: fence_openstack_enabled|bool
+    tags: fencing
+
+  - name: install python openstack, heat and nova clients for use with the openstack fence agent
+    pip:
+      name: {{ item }}
+    state: present
+    with_items:
+      - python-openstackclient
+      - python-novaclient
+      - python-heatclient
+    when: fence_openstack_enabled|bool
+    tags: fencing
+
+  - name: copy in fence_openstack agent
+    copy:
+      src: fence_openstack
+      dest: '/usr/sbin/fence_openstack'
+      mode: '0755'
+    when: fence_openstack_enabled|bool
+    tags: fencing
+
+  - name: Configure fencing resources using the openstack nova fencing agent
+    pcs_resource:
+      name: 'fence-{{ item.0 }}'
+      resource_class: 'stonith'
+      resource_type: 'fence_openstack'
+      options: 'pcmk_host_check={{ fence_openstack_host_check }} pcmk_host_list={{ item.0 }} login="{{fence_openstack_login}}" passwd="{{fence_openstack_passwd}}" auth-url="{{fence_openstack_auth_url}}" project-name="{{fence_openstack_project_name}}" project-domain-name="{{fence_openstack_project_domain_name}}" uuid={{item.1}}'
+      state: present
+    with_together:
+      - ['{{ trix_ctrl1_hostname }}', '{{ trix_ctrl2_hostname }}']
+      - ['{{ trix_ctrl1_uuid }}', '{{ trix_ctrl2_uuid }}']
+    when: fence_openstack_enabled|bool
+    tags: fencing
+
   - name: Add fencing location constraints
     pcs_constraint_location:
       resource: 'fence-{{ item }}'
@@ -193,9 +232,8 @@
     with_items:
       - '{{ trix_ctrl1_hostname }}'
       - '{{ trix_ctrl2_hostname }}'
-    when: fence_ipmilan_enabled == 'true'
+    when: fence_ipmilan_enabled|bool or fence_openstack|bool
     tags: fencing
-
 #  - name: Get IB interface names
 #    shell: ip l | awk '/ib.:/ { print $2 }' | tr -d ':'
 #    register: ib_interfaces
