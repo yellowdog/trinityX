@@ -243,7 +243,7 @@
       state: present
     with_together:
       - ['{{ trix_ctrl1_hostname }}', '{{ trix_ctrl2_hostname }}']
-      - ['{{ ctrl1_uuid }}', '{{ trix_ctrl2_uuid }}']
+      - ['{{ ctrl1_uuid }}', '{{ ctrl2_uuid }}']
     when: fence_openstack_enabled|bool
     tags: fencing
 
