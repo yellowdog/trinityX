@@ -18,7 +18,7 @@
   when: use_aws_nfs
 
 
-#- name: rename default /trinity dir
+#- name: rename default /{{trix_root}} dir
 #  shell: 'mv {{ trix_root }} {{trix_root }}-bkp'
 #  args:
 #    creates: '{{ trix_root }}-bkp'

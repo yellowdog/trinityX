@@ -1,16 +1,16 @@
 ---
 # tasks file for openldap
 
-- name: Generate openldap root password and save it to /etc/trinity/passwords
+- name: Generate openldap root password and save it to /etc/{{trix_root}}/passwords
   set_fact:
     tmp_pwd: "{{ lookup('password',
-                          '/etc/trinity/passwords/openldap/root.txt
+                          '/etc/{{trix_root}}/passwords/openldap/root.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
-- name: Get openldap root password from /etc/trinity/passwords
+- name: Get openldap root password from /etc/{{trix_root}}/passwords
   set_fact:
     openldap_root_pwd: "{{ lookup('password',
-                          '/etc/trinity/passwords/openldap/root.txt
+                          '/etc/{{trix_root}}/passwords/openldap/root.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
 - name: Install OpenLDAP packages

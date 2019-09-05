@@ -1,15 +1,15 @@
 ---
 
-- name: Generate root password for MongoDB and save it to /etc/trinity/passwords
+- name: Generate root password for MongoDB and save it to /etc/{{trix_root}}/passwords
   set_fact:
     tmp_pwd: "{{ lookup('password',
-                          '/etc/trinity/passwords/mongo/root.txt
+                          '/etc/{{trix_root}}/passwords/mongo/root.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
-- name: Get root password for MongoDB from /etc/trinity/passwords
+- name: Get root password for MongoDB from /etc/{{trix_root}}/passwords
   set_fact:
     mongo_root_pwd: "{{ lookup('password',
-                          '/etc/trinity/passwords/mongo/root.txt
+                          '/etc/{{trix_root}}/passwords/mongo/root.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
 - name: Install MongoDB packages

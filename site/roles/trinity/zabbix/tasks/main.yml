@@ -1,16 +1,16 @@
 ---
 # tasks for zabbix role
 
-- name: Generate mysql password for zabbix user and save it to  /etc/trinity/passwords
+- name: Generate mysql password for zabbix user and save it to  /etc/{{trix_root}}/passwords
   set_fact:
     tmp_pwd: "{{ lookup('password',
-                          '/etc/trinity/passwords/mysql/zabbix.txt
+                          '/etc/tri{{trix_root}}nity/passwords/mysql/zabbix.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
-- name: Get mysql password for zabbix from /etc/trinity/passwords
+- name: Get mysql password for zabbix from /etc/{{trix_root}}/passwords
   set_fact:
     zabbix_sql_pwd: "{{ lookup('password',
-                          '/etc/trinity/passwords/mysql/zabbix.txt
+                          '/etc/{{trix_root}}/passwords/mysql/zabbix.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
 - name: Install Zabbix packages
@@ -189,10 +189,10 @@
     retries: 5
     delay: 10
 
-  - name: Acquire zabbix Admin password (generate or use one from /etc/trinity/passwords)
+  - name: Acquire zabbix Admin password (generate or use one from /etc/{{trix_root}}/passwords)
     set_fact:
       zabbix_admin_pwd: "{{ lookup('password',
-                            '/etc/trinity/passwords/zabbix/admin.txt
+                            '/etc/{{trix_root}}/passwords/zabbix/admin.txt
                              chars=ascii_letters,digits,hexdigits') }}"
 
   - name: Check if zabbix on nginx pages are served as expected

@@ -1,8 +1,8 @@
 ---
 
-- name: Synchronizing /etc/trinity/passwords between controllers
+- name: Synchronizing /etc/{{trix_root}}/passwords between controllers
   synchronize:
-    src: /etc/trinity/passwords
-    dest: /etc/trinity
+    src: /etc/{{trix_root}}/passwords
+    dest: /etc/{{trix_root}}
     archive: yes
     delete: yes
