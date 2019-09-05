@@ -13,6 +13,9 @@
   roles:
     - role: trinity/init
       tags: init
+      
+    - role: trinity/filesystem
+      when: build_zones_from_inventory|bool
 
     - role: trinity/local_repo
       tags: local_repo
