@@ -103,9 +103,6 @@ openhpc_intel_packages:
   - intel-compilers-devel-ohpc
   - intel-mpi-devel-ohpc
   - likwid-intel-ohpc
-  - lmod-defaults-intel-impi-ohpc
-  - lmod-defaults-intel-mpich-ohpc
-  - lmod-defaults-intel-openmpi-ohpc
   - metis-intel-ohpc
   - mfem-intel-impi-ohpc
   - mfem-intel-mpich-ohpc
@@ -123,7 +120,6 @@ openhpc_intel_packages:
   - mumps-intel-openmpi-ohpc
   - mumps-intel-openmpi3-ohpc
   - mvapich2-intel-ohpc
-#  - mvapich2-psm2-intel-ohpc
   - netcdf-cxx-intel-impi-ohpc
   - netcdf-cxx-intel-mpich-ohpc
   - netcdf-cxx-intel-mvapich2-ohpc
@@ -161,7 +157,6 @@ openhpc_intel_packages:
   - omb-intel-openmpi3-ohpc
   - openmpi-intel-ohpc
   - openmpi-psm2-intel-ohpc
- # - openmpi3-intel-ohpc
   - openmpi3-pmix-slurm-intel-ohpc
   - pdtoolkit-intel-ohpc
   - petsc-intel-impi-ohpc
@@ -256,10 +251,6 @@ openhpc_gnu_packages:
   - imb-gnu-mpich-ohpc
   - imb-gnu-mvapich2-ohpc
   - imb-gnu-openmpi-ohpc
-  - lmod-defaults-gnu-impi-ohpc
-  - lmod-defaults-gnu-mpich-ohpc
-  - lmod-defaults-gnu-mvapich2-ohpc
-  - lmod-defaults-gnu-openmpi-ohpc
   - metis-gnu-ohpc
   - mpiP-gnu-impi-ohpc
   - mpiP-gnu-mpich-ohpc
@@ -271,7 +262,6 @@ openhpc_gnu_packages:
   - mumps-gnu-mvapich2-ohpc
   - mumps-gnu-openmpi-ohpc
   - mvapich2-gnu-ohpc
-#  - mvapich2-psm2-gnu-ohpc
   - netcdf-cxx-gnu-impi-ohpc
   - netcdf-cxx-gnu-mpich-ohpc
   - netcdf-cxx-gnu-mvapich2-ohpc
@@ -287,7 +277,6 @@ openhpc_gnu_packages:
   - ocr-gnu-ohpc
   - openblas-gnu-ohpc
   - openmpi-gnu-ohpc
-#  - openmpi-psm2-gnu-ohpc
   - pdtoolkit-gnu-ohpc
   - petsc-gnu-impi-ohpc
   - petsc-gnu-mpich-ohpc
@@ -382,7 +371,6 @@ openhpc_gnu7_packages:
   - mumps-gnu7-openmpi-ohpc
   - mumps-gnu7-openmpi3-ohpc
   - mvapich2-gnu7-ohpc
-#  - mvapich2-psm2-gnu7-ohpc
   - netcdf-cxx-gnu7-impi-ohpc
   - netcdf-cxx-gnu7-mpich-ohpc
   - netcdf-cxx-gnu7-mvapich2-ohpc
@@ -400,7 +388,6 @@ openhpc_gnu7_packages:
   - openblas-gnu7-ohpc
   - openmpi-gnu7-ohpc
   - openmpi-psm2-gnu7-ohpc
-#  - openmpi3-gnu7-ohpc
   - openmpi3-pmix-slurm-gnu7-ohpc
   - pdtoolkit-gnu7-ohpc
   - petsc-gnu7-impi-ohpc
@@ -516,10 +503,6 @@ openhpc_gnu8_packages:
   - imb-gnu8-mvapich2-ohpc
   - imb-gnu8-openmpi3-ohpc
   - likwid-gnu8-ohpc
-  - lmod-defaults-gnu8-impi-ohpc
-  - lmod-defaults-gnu8-mpich-ohpc
-  - lmod-defaults-gnu8-mvapich2-ohpc
-  - lmod-defaults-gnu8-openmpi3-ohpc
   - metis-gnu8-ohpc
   - mfem-gnu8-impi-ohpc
   - mfem-gnu8-mpich-ohpc
@@ -535,7 +518,6 @@ openhpc_gnu8_packages:
   - mumps-gnu8-mvapich2-ohpc
   - mumps-gnu8-openmpi3-ohpc
   - mvapich2-gnu8-ohpc
-#  - mvapich2-psm2-gnu8-ohpc
   - netcdf-cxx-gnu8-impi-ohpc
   - netcdf-cxx-gnu8-mpich-ohpc
   - netcdf-cxx-gnu8-mvapich2-ohpc
