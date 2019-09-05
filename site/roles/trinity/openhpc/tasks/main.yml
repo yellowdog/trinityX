@@ -64,6 +64,35 @@
     state: installed
   when: ansible_connection in 'lchroot' or "controllers" not in group_names
 
+- name: Optionally install standard OpenHPC packages on Controllers
+  yum:
+    name: '{{openhpc_standard_packages}}'
+    state: installed
+  when: openhpc_install_standard|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally install GNU module packages on Controllers
+  yum:
+    name: '{{openhpc_gnu_packages}}'
+    state: installed
+  when: openhpc_install_gnu|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally install GNU7 module packages on Controllers
+  yum:
+    name: '{{openhpc_gnu7_packages}}'
+    state: installed
+  when: openhpc_install_gnu7|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally install GNU8 module packages on Controllers
+  yum:
+    name: '{{openhpc_gnu8_packages}}'
+    state: installed
+  when: openhpc_install_gnu8|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally install Intel module packages on Controllers
+  yum:
+    name: '{{openhpc_intel_packages}}'
+    state: installed
+  when: openhpc_install_intel|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
 
 - name: Update NFS exports
   template:
