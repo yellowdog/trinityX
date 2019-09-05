@@ -10,7 +10,7 @@
 - name: Update fail2ban configuration file
   copy:
     src: 'trinityx.conf'
-    dest: '/etc/fail2ban/jail.d/{{trix_root}}.conf'
+    dest: '/etc/fail2ban/jail.d{{trix_root}}.conf'
   notify: restart fail2ban
 
 - name: Start and enable fail2ban service

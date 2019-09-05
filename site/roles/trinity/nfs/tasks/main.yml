@@ -24,13 +24,13 @@
 - name: Setup NFS exports in {{ nfs_exports_path }}
   template:
     src: '{{ "HA_exports" if ha == true else "nonHA_exports" }}'
-    dest: '{{ nfs_exports_path }}/{{trix_root}}.exports'
+    dest: '{{ nfs_exports_path }}{{trix_root}}.exports'
   when: primary | default(True)
 
 - name: Add link to the exports file in /etc/exports.d
   file:
-    src: '{{ nfs_exports_path }}/trinity.exports'
-    dest: '/etc/exports.d/{{trix_root}}.exports'
+    src: '{{ nfs_exports_path }}{{trix_root}}.exports'
+    dest: '/etc/exports.d{{trix_root}}.exports'
     state: link
     force: yes
     follow: no

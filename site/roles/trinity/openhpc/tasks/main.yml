@@ -12,7 +12,7 @@
     mode: '0755'
   when: '"controllers" in group_names'
 
-- name: Create link so openhpc ends up on /{{trix_root}} filesystem so that config data is not lost on an instance rebuild
+- name: Create link so openhpc ends up on {{trix_root}} filesystem so that config data is not lost on an instance rebuild
   file:
     src: '{{ trix_ohpc }}'
     path: /opt/ohpc

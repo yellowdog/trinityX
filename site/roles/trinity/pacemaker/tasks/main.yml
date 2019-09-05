@@ -1,15 +1,15 @@
 ---
 # tasks file for pacemaker  
-- name: Generate hacluster password and save it to  /etc/{{trix_root}}/passwords
+- name: Generate hacluster password and save it to  /etc{{trix_root}}/passwords
   set_fact:
     tmp_pwd: "{{ lookup('password',
-                          '/etc/{{trix_root}}/passwords/hacluster.txt
+                          '/etc{{trix_root}}/passwords/hacluster.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
-- name: Get hacluster password from /etc/{{trix_root}}/passwords
+- name: Get hacluster password from /etc{{trix_root}}/passwords
   set_fact:
     pacemaker_user_pwd: "{{ lookup('password',
-                          '/etc/{{trix_root}}/passwords/hacluster.txt
+                          '/etc{{trix_root}}/passwords/hacluster.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
 - name: Install pacemaker packages
@@ -57,7 +57,7 @@
 - name: Generate salt for the hacluster password
   set_fact:
     password_salt: "{{ lookup('password',
-                          '/etc/{{trix_root}}/passwords/hacluster-salt.txt
+                          '/etc{{trix_root}}/passwords/hacluster-salt.txt
                            chars=ascii_letters,digits,hexdigits length=16') }}"
 
 - name: Set a passwd for the user hacluster

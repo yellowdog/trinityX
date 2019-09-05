@@ -1,16 +1,16 @@
 ---
 # tasks file for luna
 
-- name: Generate root password for MongoDB and save it to /etc/{{trix_root}}/passwords
+- name: Generate root password for MongoDB and save it to /etc{{trix_root}}/passwords
   set_fact:
     tmp_pwd: "{{ lookup('password',
-                          '/etc/{{trix_root}}/passwords/mongo/luna.txt
+                          '/etc{{trix_root}}/passwords/mongo/luna.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
-- name: Get root password for MongoDB from /etc/{{trix_root}}/passwords
+- name: Get root password for MongoDB from /etc{{trix_root}}/passwords
   set_fact:
     luna_db_pwd: "{{ lookup('password',
-                          '/etc/{{trix_root}}/passwords/mongo/luna.txt
+                          '/etc{{trix_root}}/passwords/mongo/luna.txt
                            chars=ascii_letters,digits,hexdigits') }}"
 
 - name: Create a group for luna

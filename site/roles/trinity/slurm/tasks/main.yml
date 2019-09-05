@@ -1,16 +1,16 @@
 ---
 # tasks file for slurm
 
-- name: Generate password for DB user and save it to /etc/{{trix_root}}/passwords
+- name: Generate password for DB user and save it to /etc{{trix_root}}/passwords
   set_fact:
     tmp_pwd: '{{ lookup("password",
-                           "/etc/{{trix_root}}/passwords/mysql/{{ slurmdbd_sql_user }}.txt
+                           "/etc{{trix_root}}/passwords/mysql/{{ slurmdbd_sql_user }}.txt
                             chars=ascii_letters,digits,hexdigits") }}'
 
-- name: Get password for DB user from /etc/{{trix_root}}/passwords)
+- name: Get password for DB user from /etc{{trix_root}}/passwords)
   set_fact:
     slurmdbd_sql_pwd: '{{ lookup("password",
-                           "/etc/{{trix_root}}/passwords/mysql/{{ slurmdbd_sql_user }}.txt
+                           "/etc{{trix_root}}/passwords/mysql/{{ slurmdbd_sql_user }}.txt
                             chars=ascii_letters,digits,hexdigits") }}'
 
 - name: Create groups for munge and slurm
@@ -81,7 +81,7 @@
 - name: Render systemd units for slurm, slurmdbd and munge
   template:
     src: 'systemd/{{ item }}.service.d/trinity.conf.j2'
-    dest: '/etc/systemd/system/{{ item }}.service.d/{{trix_root}}.conf'
+    dest: '/etc/systemd/system/{{ item }}.service.d{{trix_root}}.conf'
     backup: yes
   with_items:
     - munge

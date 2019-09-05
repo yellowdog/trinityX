@@ -11,16 +11,16 @@
       name: MySQL-python
       state: present
 
-  - name: Acquire zabbix SQL password (generate or use one from /etc/{{trix_root}}/passwords)
+  - name: Acquire zabbix SQL password (generate or use one from /etc{{trix_root}}/passwords)
     set_fact:
       zabbix_sql_pwd: "{{ lookup('password',
-                        '/etc/{{trix_root}}/passwords/mysql/zabbix.txt
+                        '/etc{{trix_root}}/passwords/mysql/zabbix.txt
                          chars=ascii_letters,digits,hexdigits') }}"
 
-  - name: Acquire zabbix Admin password (generate or use one from /etc/{{trix_root}}/passwords)
+  - name: Acquire zabbix Admin password (generate or use one from /etc{{trix_root}}/passwords)
     set_fact:
       zabbix_admin_pwd: "{{ lookup('password',
-                        '/etc/{{trix_root}}/passwords/zabbix/admin.txt
+                        '/etc{{trix_root}}/passwords/zabbix/admin.txt
                          chars=ascii_letters,digits,hexdigits') }}"
 
   - name: Create cmdline to access sql
@@ -150,10 +150,10 @@
         and ansible_connection not in 'lchroot'
 
 - block:
-  - name: Acquire zabbix Admin password (generate or use one from /etc/{{trix_root}}/passwords)
+  - name: Acquire zabbix Admin password (generate or use one from /etc{{trix_root}}/passwords)
     set_fact:
       zabbix_admin_pwd: "{{ lookup('password',
-                        '/etc/{{trix_root}}/passwords/zabbix/admin.txt
+                        '/etc{{trix_root}}/passwords/zabbix/admin.txt
                          chars=ascii_letters,digits,hexdigits') }}"
 
   - name: Ensure host group
