@@ -159,6 +159,11 @@ enable_openhpc: true
 
 use_aws_nfs: false
 
+# set mellanox OFED Defaults rembember you can override per node type in group_vars/<group>
+use_mellanox_ofed: false
+mellanox_version: 'latest'
+mellanox_os_ver: 'rhel7.6'
+
 # Local yum repository
 
 trix_local_reponame: 'trinityx-local'
@@ -172,3 +177,23 @@ trinity_repo: 'https://updates.clustervision.com/trinity/10.2/centos/trinity.rep
 userspace_repo: 'https://updates.clustervision.com/userspace/userspace-release.x86_64.rpm'
 elrepo_repo: 'http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm'
 zabbix_repo: https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
+mellanox_repo: http://linux.mellanox.com/public/repo/mlnx_ofed/{{mellanox_version}}/{{mellanox_os_ver}}/mellanox_mlnx_ofed.repo
+mellanox_gpg: http://www.mellanox.com/downloads/ofed/RPM-GPG-KEY-Mellanox
+ood_repo: https://yum.osc.edu/ondemand/1.6/ondemand-release-web-1.6-1.el7.noarch.rpm
+ohpc_repo_dict: { repo: 'http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/OpenHPC:1.3.repo', remote_key: 'http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/repodata/repomd.xml.key' }
+ohpc_updates_repo_dict: { repo: 'http://build.openhpc.community/OpenHPC:/1.3/updates/CentOS_7/OpenHPC:1.3:Update8.repo', remote_key: 'http://build.openhpc.community/OpenHPC:/1.3:/Update8/CentOS_7/repodata/repomd.xml.key' }
+
+enable_repomirror: false
+
+#example of a repomirror true config would be:
+#repomirror: 'http://repomirror'
+#centos_repo_dict: { repo: '{{repomirror}}/CentOS/CentOS-Base.repo', remote_key: '{{repomirror}}/RPM-GPG-KEY-CentOS-7'}
+#epel_repo_dict: { repo: '{{repomirror}}/epel/epel.repo', remote_key: '{{repomirror}}/RPM-GPG-KEY-EPEL-7' }
+#luna_repo: '{{repomirror}}/luna/luna-1.2.repo'
+#trinity_repo: '{{repomirror}}/trinity/trinity.repo'
+#zabbix_repo: '{{repomirror}}/zabbix/zabbix.repo'
+#mellanox_repo_dict: { repo: '{{repomirror}}/mlnx_ofed_4.6-1.0.1.1_base/mellanox_mlnx_ofed.repo', remote_key: '{{repomirror}}/RPM-GPG-KEY-Mellanox' }
+#ood_repo_dict: { repo: '{{repomirror}}/ondemand-compute/ondemand-compute.repo', remote_key: '{{repomirror}}/RPM-GPG-KEY-ondemand-compute' }
+#sclo_rh_repo_dict: { repo: '{{repomirror}}/CentOS-SCLo-scl-rh.repo', remote_key: '{{repomirror}}/RPM-GPG-KEY-CentOS-SIG-SCLo' }
+#ohpc_repo_dict: { repo: '{{repomirror}}/OpenHPC_1.3/OpenHPC_1.3.repo', remote_key: '{{repomirror}}/RPM-GPG-KEY-OpenHPC_1.3' }
+#ohpc_updates_repo_dict: { repo: '{{repomirror}}/OpenHPC_1.3_Update8/OpenHPC_1.3_Update8.repo', remote_key: '{{repomirror}}/RPM-GPG-KEY-OpenHPC_1.3' }

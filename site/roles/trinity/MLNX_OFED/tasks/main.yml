@@ -1,0 +1,7 @@
+---
+# tasks for mlnx_ofed
+
+  - name: install {{mellanox_package}} packages
+    yum:
+      name: '{{mellanox_package}}'
+      state: latest

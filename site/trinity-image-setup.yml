@@ -17,7 +17,32 @@
     repos:
     - repo: '{{ userspace_repo }}'
     - repo: epel-release
+    - repo: '{{luna_repo}}'
+    - '{{ohpc_repo_dict}}'
+    - '{{ohpc_updates_repo_dict}}'
     tags: repos
+    when: not local_install|bool and not enable_repomirror|bool
+
+  - role: trinity/repos
+    repos:
+    - '{{centos_repo_dict}}'
+    - repo: '{{trinity_repo}}'
+    - repo: '{{luna_repo}}'
+    - repo: '{{zabbix_repo}}'
+    - '{{epel_repo_dict}}'
+    - '{{ohpc_repo_dict}}'
+    - '{{ohpc_updates_repo_dict}}'
+    when: enable_repomirror|bool
+    tags: repos
+
+  - role: trinity/repos
+    repos:
+    - '{{mellanox_repo_dict}}'
+    tags: 
+      - mlnx-ofed
+      - repos
+    when: use_mellanox_ofed|bool
+
 
   - role: trinity/packages
     tags: packages
@@ -41,6 +66,11 @@
 
   - role: trinity/rdma-centos
     tags: rdma-centos
+    when: not use_mellanox_ofed|bool
+
+  - role: trinity/mlnx_ofed
+    tags: mlnx-ofed
+    when: use_mellanox_ofed|bool
 
   - role: trinity/trix-tree
     tags: trix-tree

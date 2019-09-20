@@ -21,12 +21,29 @@
     state: link
   when: ansible_connection not in 'lchroot' and "controllers" in group_names
 
+#DON'T do this on 60 nodes with a high fork count or most will fail
+#- name: Install ohpc-release
+#  yum:
+#    name: https://github.com/openhpc/ohpc/releases/download/v1.3.GA/ohpc-release-1.3-1.el7.x86_64.rpm
+#    state: installed
+# trying a template + copy for the gpg key (similar issue) instead:
 
-- name: Install ohpc-release
-  yum:
-    name: https://github.com/openhpc/ohpc/releases/download/v1.3.GA/ohpc-release-1.3-1.el7.x86_64.rpm
-    state: installed
 
+# removing, do this using the repos role in the playbook
+#- name: Update OHPC Repo File - using template to allow upgrades
+#  template:
+#    src:  OpenHPC.repo
+#    dest: /etc/yum.repos.d/OpenHPC_{{ohpc_major_ver}}.{{ohpc_minor_ver}}.repo
+
+# removing, do this using the repos role in the playbook
+#- name: Install OpenHPC GPG key without overloading OHPC page
+#  copy:
+#    src: 'RPM-GPG-KEY-OpenHPC-{{ohpc_major_ver}}'
+#    dest: '/etc/pki/rpm-gpg/RPM-GPG-KEY-OpenHPC-{{ohpc_major_ver}}'
+#    owner: root
+#    group: root
+#    mode: 0644
+  
 - name: Ensure conflicting rpms from legacy TrinityX are not installed
   yum:
     name:
@@ -70,11 +87,68 @@
     state: installed
   when: openhpc_install_standard|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
 
+# this is horrible but necessary, lots of the -ohpc packages have dependencies which need to be on the compute nodes
+# we cannot install the packages themselves on the compute nodes as /opt/ohpc is mounted read only here and the install
+# will fail and stop the playbook even though the yum verification actually passes.
+# we know that the -ohpc packages aere installed on the controllers and shared to all nodes so we manually use yum 
+# to evaluate all of the non- openhpc deps and append them to a file. We then strip all the duplicates and install that package list
+#
+# I filter out the packages ending in ohpc as these install to /opt/ohpc
+# I also 
+# the '|| [[ $? == 1 ]]' might need a bit of explanation here
+# problem is that grep requrns 1 as a warning if there are no matches and ansible interprets this as a failure
+# the above detects when the status is 1 and returns 0 instead see link for how
+# https://unix.stackexchange.com/questions/330660/prevent-grep-from-exiting-in-case-of-nomatch 
+- name: Ensure /tmp/ohpc-deplist-state/ exists
+  file:
+    path: /tmp/ohpc-deplist-state/
+    state: directory
+
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist for OpenHPC standard packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] && touch /tmp/ohpc-deplist-state/{{item}}
+  args:
+    creates: /tmp/ohpc-deplist-state/{{item}}
+  with_items: '{{openhpc_standard_packages}}'
+  when: openhpc_install_standard|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
+
+- name: Optionally install Intel module packages on Controllers
+  yum:
+    name: '{{openhpc_intel_packages}}'
+    state: installed
+  when: openhpc_install_intel|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist for Intel module packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] && touch /tmp/ohpc-deplist-state/{{item}}
+  args:
+    creates: /tmp/ohpc-deplist-state/{{item}}
+  with_items: '{{openhpc_intel_packages}}'
+  when: openhpc_install_intel|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
+
 - name: Optionally install GNU module packages on Controllers
   yum:
     name: '{{openhpc_gnu_packages}}'
     state: installed
   when: openhpc_install_gnu|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist for GNU module packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] && touch /tmp/ohpc-deplist-state/{{item}}
+  args:
+    creates: /tmp/ohpc-deplist-state/{{item}}
+  with_items: '{{openhpc_gnu_packages}}'
+  when: openhpc_install_gnu|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
+
+- name: Optionally install GNU intel mpi module packages on Controllers
+  yum:
+    name: '{{openhpc_gnu_impi_packages}}'
+    state: installed
+  when: openhpc_install_gnu|bool and openhpc_install_intel|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist for GNU intel mpi module packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] && touch /tmp/ohpc-deplist-state/{{item}}
+  args:
+    creates: /tmp/ohpc-deplist-state/{{item}}
+  with_items: '{{openhpc_gnu_impi_packages}}'
+  when: openhpc_install_gnu|bool and openhpc_install_intel|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
 
 - name: Optionally install GNU7 module packages on Controllers
   yum:
@@ -82,17 +156,75 @@
     state: installed
   when: openhpc_install_gnu7|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
 
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist for GNU7 module packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] && touch /tmp/ohpc-deplist-state/{{item}}
+  args:
+    creates: /tmp/ohpc-deplist-state/{{item}}
+  with_items: '{{openhpc_gnu7_packages}}'
+  when: openhpc_install_gnu7|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
+
+- name: Optionally install GNU7 intel mpi module packages on Controllers
+  yum:
+    name: '{{openhpc_gnu7_impi_packages}}'
+    state: installed
+  when: openhpc_install_gnu7|bool and openhpc_install_intel|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist for GNU7 intel mpi module packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] 
+  with_items: '{{openhpc_gnu7_impi_packages}}'
+  when: openhpc_install_gnu7|bool and openhpc_install_intel|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
+
 - name: Optionally install GNU8 module packages on Controllers
   yum:
     name: '{{openhpc_gnu8_packages}}'
     state: installed
   when: openhpc_install_gnu8|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
 
-- name: Optionally install Intel module packages on Controllers
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist for GNU8 module packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] && touch /tmp/ohpc-deplist-state/{{item}}
+  args:
+    creates: /tmp/ohpc-deplist-state/{{item}}
+  with_items: '{{openhpc_gnu8_packages}}'
+  when: openhpc_install_gnu8|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
+
+- name: Optionally install GNU8 intel mpi module packages on Controllers
   yum:
-    name: '{{openhpc_intel_packages}}'
+    name: '{{openhpc_gnu8_impi_packages}}'
     state: installed
-  when: openhpc_install_intel|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+  when: openhpc_install_gnu8|bool and openhpc_install_intel|bool and ansible_connection not in 'lchroot' and "controllers" in group_names
+
+- name: Optionally Update or generate dependency file in /tmp/ohpc-deplist-<pkgname> for GNU8 intel mpi module packages on compute nodes
+  shell: yum deplist {{item}} | grep provider | awk '{print $2}' | sort -u | grep -E -v "\-ohpc|munge-libs\." >> /tmp/ohpc-deplist || [[ $? == 1 ]] && touch /tmp/ohpc-deplist-state/{{item}}
+  args:
+    creates: /tmp/ohpc-deplist-state/{{item}}
+  with_items: '{{openhpc_gnu8_impi_packages}}'
+  when: openhpc_install_gnu8|bool and openhpc_install_intel|bool and (ansible_connection in 'lchroot' or "controllers" not in group_names)
+
+- name: Test if  /tmp/ohpc-deplist exists
+  stat:
+    path: '/tmp/ohpc-deplist'
+  register: deplist_path
+  tags: zXKJCz
+
+- name: Strip duplicates from /tmp/ohpc-deplist, remove any remaining ohpc packages and create /tmp/ohpc-deplist-unique
+  shell: 'sort -u /tmp/ohpc-deplist | grep -E -v "ohpc" > /tmp/ohpc-deplist-unique'
+  args:
+    creates: /tmp/ohpc-deplist-unique
+  when: (ansible_connection in 'lchroot' or "controllers" not in group_names) and deplist_path.stat.exists|bool
+
+- name: Test if  /tmp/ohpc-deplist-unique exists
+  stat:
+    path: '/tmp/ohpc-deplist-unique'
+  register: deplist_unique_path
+  when: (ansible_connection in 'lchroot' or "controllers" not in group_names)
+  tags: zXKJCz
+
+- name: install Optional OpenHPC package dependencies on the non-controller nodes
+  shell: 'yum install -y $(cat /tmp/ohpc-deplist-unique) && touch /tmp/ohpc-deplist-installed'
+  args:
+    creates: /tmp/ohpc-deplist-installed
+  when: (ansible_connection in 'lchroot' or "controllers" not in group_names) and deplist_unique_path.stat.exists|bool
+  tags: zXKJCz
 
 - name: Update NFS exports
   template:
