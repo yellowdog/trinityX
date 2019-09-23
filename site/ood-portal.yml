@@ -5,6 +5,10 @@
 
 - hosts: ood
   roles:
+    - role: trinity/repos
+      repos:
+      - repo: '{{ood_repo}}'
+      - repo: 'centos-release-scl'
 
     - role: trinity/ood-portal
       slurm_controller: '{{ trix_ctrl_hostname }}'
