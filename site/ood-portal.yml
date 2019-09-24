@@ -9,7 +9,12 @@
       repos:
       - repo: '{{ood_repo}}'
       - repo: 'centos-release-scl'
-
+      when: not enable_repomirror|bool
+    - role: trinity/repos
+      repos:
+      - '{{ood_repo_dict}}'
+      - '{{sclo_repo_dict}}'
+      when:  enable_repomirror|bool
     - role: trinity/ood-portal
       slurm_controller: '{{ trix_ctrl_hostname }}'
       ldap_hosts: 
