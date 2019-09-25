@@ -5,6 +5,11 @@
   - role: trinity/init-nodes
     tags: init-nodes
 
+  - role: trinity/hostname
+    tags: hostname
+  
+  - role: trinity/resolvconf
+    tags: resolvconf
 
   - role: trinity/repos
     repos:
@@ -49,12 +54,6 @@
 
   - role: trinity/tunables
     tags: tunables
-
-  - role: trinity/hostname
-    tags: hostname
-  
-  - role: trinity/resolvconf
-    tags: resolvconf
 
   - role: trinity/ssl-cert
     tags: ssl-cert
