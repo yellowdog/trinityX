@@ -4,11 +4,16 @@
     compute: '{{ True if (ansible_connection not in "lchroot" and "ood" not in group_names) else False }}'
   tags: always
 
+- name: check if /usr/bin/firewall-cmd exists
+  stat:
+    path: "/usr/bin/firewall-cmd"
+  register: firewalld
+
 - name: Stop firewalld
   service:
     name: firewalld
     state: stopped
-  when: compute|default(False)
+  when: compute|default(False) and firewalld.stat.exists
 
 - name: Disable firewalld
 # service:
