@@ -97,6 +97,9 @@
     sss_filter_enabled: '{{ not enable_slurm_pam }}'
     tags: sssd
 
+    - role: trinity/ssh
+      tags: ssh
+
   - role: trinity/openhpc
     when: enable_openhpc == true
     tags: openhpc

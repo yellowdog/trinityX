@@ -5,3 +5,10 @@
     yum:
       name: '{{mellanox_package}}'
       state: latest
+    register: mlnx_install
+
+  - name: create a /run/mlnx_installer_changed file
+    file:
+      path: /run/mlnx_installer_changed
+      state: touch
+    when: mlnx_install.changed|bool

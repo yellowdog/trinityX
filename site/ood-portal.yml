@@ -36,6 +36,3 @@
   roles:
     - role: trinity/ood-modules
       tags: ood-modules
-      
-
-    

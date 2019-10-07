@@ -17,7 +17,6 @@ v2:
   batch_connect:
     basic:
       script_wrapper: |
-        module purge
         %s
     vnc:
       script_wrapper: |

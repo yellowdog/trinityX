@@ -98,7 +98,7 @@
 - name: run update_ood_portal to generate webserver config file
   command: '/opt/ood/ood-portal-generator/sbin/update_ood_portal'
   register: command_result
-  failed_when: "'Completed successfully!' not in command_result.stdout"
+  #failed_when: "'Completed successfully!' not in command_result.stdout"
 
 - name: enable ood webserver by default
   service:
