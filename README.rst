@@ -241,7 +241,9 @@ This can be auto-populated by openstack heat as the hash name suggests. It assum
 
 11. Start TrinityX installation::
 
-     # ansible-playbook controller.yml
+     # ansible-playbook controller.yml --skip-tags=luna
+
+     the skip-tags entry is essential or bad things will happen with the suggested network config. Doing it this way allows us to use the same controller file for both types of install.
 
     **Note**: If errors are encoutered during the installation process, analyze the error(s) in the output and try to fix it then re-run the installer.
 
