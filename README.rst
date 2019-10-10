@@ -118,6 +118,57 @@ Steps to install TrinityX without Luna e.g. on a cloud platform
 
      This is used by the ood- modules to determine whether to build the modules (on the controller node),  configure the bc_desktop module (on the portal node) and install the graphical desktop packages (on the staticcompute nodes) so currently is makes sense to set it here in one place. Going forward as more node groups are supported out of the box you may want to define it for each separate group. e.g. in ``group_vars/controllers``, ``group_vars/staticcomputes`` and ``group_vars/portal`` files
 
+     Final settings are for the compute node count so that ansible can build the slurm config file
+
+       heat:
+       
+         ctrl_ip: '{{ trix_ctrl_ip }}'
+         
+         ctrl_hostname: '{{ trix_ctrl_hostname }}'
+         
+         static_compute_partition_name: defq
+         
+         static_compute_host_name_base: node
+         
+         static_compute_start_number: 20
+         
+         static_compute_initial_number: 20
+         
+         static_compute_max_number: 20
+         
+         static_compute_min_number: 1
+         
+    Hopefully these are fairly self explanitory. The ctrl_ip and hostname should NOT be changed from these values unless you really know what you are doing. The rest are used to build the slurm config file on the controller. 
+
+      start_number - this is the number we start COUNTing from normally 1 but could be 10 if you want to have the nodes all called node0001-node0020 and have a different partition for nodes0010 to 0020
+
+      initial_number - this is how many nodes you have created
+
+      max_number - this is the maximum nuber of nodes that can be up in this partition (not used yet should be same as inital number for now)
+
+      min_number - this is the minimum number of nodes that should stay powered up (not used yet until power saving is implemented leave as 1)
+
+This can be auto-populated by openstack heat as the hash name suggests. It assumes that the nodes in the same parition will be sequential counting from the max to min. The above example is for a 20 node system creating node0001 to node0020. **These need to match the hostnames you use in the hostfile** an example for cpu0005 to cpu0019 is shown below
+
+       heat:
+       
+         ctrl_ip: '{{ trix_ctrl_ip }}'
+         
+         ctrl_hostname: '{{ trix_ctrl_hostname }}'
+         
+         static_compute_partition_name: defq
+         
+         static_compute_host_name_base: cpu
+         
+         static_compute_start_number: 5
+         
+         static_compute_initial_number: 14
+         
+         static_compute_max_number: 14
+         
+         static_compute_min_number: 1
+         
+
    * ``group_vars/staticcomputes``
 
      these are settings for just the compute nodes If these are baremetal provisioned nodes using something like ironic then you might have mellanox cards in. If so you will want to use the mellanox OFED instead of the default CentOS 7 rdma packages. This can be enabled by seting the following varable in this file (or in ``group_vars/all`` if you have baremental nodes with melllanox everywhere)
