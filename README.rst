@@ -109,7 +109,9 @@ Steps to install TrinityX without Luna e.g. on a cloud platform
      if you have specific DNS server(s) you want to use then configure them here leaving this blank will configure the cluster DNS server to use the google DNS servers:
 
        ``bind_dns_forwarders:``
+       
        ``  - 'ip1'``
+       
        ``  - 'ip2'``
 
      the following 2 settings are essential if not using luna, they tell ansible to take over configuring resolv.conf on all nodes and dns zones on on the controller and rename compute instances
@@ -127,15 +129,23 @@ Steps to install TrinityX without Luna e.g. on a cloud platform
 
      Final settings are for the compute node count so that ansible can build the slurm config file
 
-       ``heat:
+       heat:
+       
          ctrl_ip: '{{ trix_ctrl_ip }}'
+         
          ctrl_hostname: '{{ trix_ctrl_hostname }}'
+
          static_compute_partition_name: defq
+         
          static_compute_host_name_base: node
+         
          static_compute_start_number: 20
+         
          static_compute_initial_number: 20
+         
          static_compute_max_number: 20
-         static_compute_min_number: 1``
+         
+         static_compute_min_number: 1
          
     Hopefully these are fairly self explanitory. The ctrl_ip and hostname should NOT be changed from these values unless you really know what you are doing. The rest are used to build the slurm config file on the controller. 
 
