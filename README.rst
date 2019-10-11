@@ -108,11 +108,11 @@ Steps to install TrinityX without Luna e.g. on a cloud platform
 
      if you have specific DNS server(s) you want to use then configure them here leaving this blank will configure the cluster DNS server to use the google DNS servers:
 
-       ``bind_dns_forwarders:``
+       bind_dns_forwarders:
        
-       ``  - 'ip1'``
+         - 'ip1'
        
-       ``  - 'ip2'``
+         - 'ip2'
 
      the following 2 settings are essential if not using luna, they tell ansible to take over configuring resolv.conf on all nodes and dns zones on on the controller and rename compute instances
 
@@ -162,12 +162,19 @@ This can be auto-populated by openstack heat as the hash name suggests. It assum
        heat:
        
          ctrl_ip: '{{ trix_ctrl_ip }}'
+
          ctrl_hostname: '{{ trix_ctrl_hostname }}'
+         
          static_compute_partition_name: defq
+         
          static_compute_host_name_base: cpu
+         
          static_compute_start_number: 5
+         
          static_compute_initial_number: 14
+         
          static_compute_max_number: 14
+         
          static_compute_min_number: 1
          
 
