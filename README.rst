@@ -112,6 +112,12 @@ Steps to install TrinityX without Luna e.g. on a cloud platform
          - 'ip1'
          - 'ip2'
 
+     the following 2 settings are essential if not using luna, they tell ansible to take over configuring resolv.conf on all nodes and dns zones on on the controller and rename compute instances
+
+       **configure_resolveconf: true**
+       **use_inventory_hostname: true**
+
+
      if you are installing Open OnDemand you probably want to enable the vnc desktop option. If so then currently you probably want to set:
 
        enable_vnc_to_nodes: true
@@ -121,28 +127,20 @@ Steps to install TrinityX without Luna e.g. on a cloud platform
      Final settings are for the compute node count so that ansible can build the slurm config file
 
        heat:
-       
          ctrl_ip: '{{ trix_ctrl_ip }}'
-         
          ctrl_hostname: '{{ trix_ctrl_hostname }}'
-         
          static_compute_partition_name: defq
-         
          static_compute_host_name_base: node
-         
          static_compute_start_number: 20
-         
          static_compute_initial_number: 20
-         
          static_compute_max_number: 20
-         
          static_compute_min_number: 1
          
     Hopefully these are fairly self explanitory. The ctrl_ip and hostname should NOT be changed from these values unless you really know what you are doing. The rest are used to build the slurm config file on the controller. 
 
       start_number - this is the number we start COUNTing from normally 1 but could be 10 if you want to have the nodes all called node0001-node0020 and have a different partition for nodes0010 to 0020
 
-      initial_number - this is how many nodes you have created
+      initial_number - this is how many nodes you have created initially, the plan is to allow the scheduler to power up and down the nodes or maybe even delete and recreate instances
 
       max_number - this is the maximum nuber of nodes that can be up in this partition (not used yet should be same as inital number for now)
 
@@ -153,19 +151,12 @@ This can be auto-populated by openstack heat as the hash name suggests. It assum
        heat:
        
          ctrl_ip: '{{ trix_ctrl_ip }}'
-         
          ctrl_hostname: '{{ trix_ctrl_hostname }}'
-         
          static_compute_partition_name: defq
-         
          static_compute_host_name_base: cpu
-         
          static_compute_start_number: 5
-         
          static_compute_initial_number: 14
-         
          static_compute_max_number: 14
-         
          static_compute_min_number: 1
          
 
