@@ -80,6 +80,7 @@ tunables_packages:
   - python-hostlist
   - python-netaddr
   - python36-netaddr
+  - redhat-lsb-core
   - rsync
   - screen
   - sg3_utils
