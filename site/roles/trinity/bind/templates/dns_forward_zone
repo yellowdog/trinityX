@@ -19,6 +19,8 @@ $TTL 604800     ; 1 week
 {{ '%-50s %-7s %20s' % (host,'A',IP) }}
 {% endfor %}
 {% endfor %}
+{% if extra_fwd_lookups is iterable %}
 {% for dict in extra_fwd_lookups %}
 {{ '%-50s %-7s %20s' % (dict['name'],dict['type'],dict['value']) }}
 {% endfor %}
+{% endif %}
