@@ -48,19 +48,19 @@
       - repos
     when: use_mellanox_ofed|bool
 
-    - role: trinity/repos
-      repos:
-      - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/os/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-Base' }
-      - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/updates/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-Updates' }
-      - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/extras/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-Extras' }
-      - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/centosplus/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-centosplusplus' }
-      - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/fasttrack/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-fasttrack' }
-      tags: 
-        - repos
-      when: 
-        - use_centos_vault|bool
-        - not enable_repomirror|bool
-        - not local_install|bool
+  - role: trinity/repos
+    repos:
+    - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/os/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-Base' }
+    - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/updates/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-Updates' }
+    - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/extras/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-Extras' }
+    - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/centosplus/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-centosplusplus' }
+    - { repo: 'http://mirror.nsc.liu.se/centos-store/{{centos_fullvers}}/fasttrack/x86_64/', remote_key: 'http://mirror.nsc.liu.se/centos-store/RPM-GPG-KEY-CentOS-7', name: 'CentOS-{{centos_fullvers}}-fasttrack' }
+    tags: 
+      - repos
+    when: 
+      - use_centos_vault|bool
+      - not enable_repomirror|bool
+      - not local_install|bool
 
   - role: trinity/packages
     tags: packages
