@@ -114,9 +114,13 @@ Steps to install TrinityX without Luna e.g. on a cloud platform
        
          - 'ip2'
 
+     the following 3 settings are essential if not using luna, they tell ansible to take over configuring resolv.conf on all nodes, update hostnames according to the ansible hosts file and build dns zones on on the controller and rename compute instances
+
      the following 2 settings are essential if not using luna, they tell ansible to take over configuring resolv.conf on all nodes and dns zones on on the controller and rename compute instances
 
        **configure_resolveconf: true**
+
+       **build_zones_from_inventory: true**
        
        **use_inventory_hostname: true**
 
@@ -226,8 +230,9 @@ This can be auto-populated by openstack heat as the hash name suggests. It assum
 
    Example for non-HA setup with a web portal and allowing vnc remote desktop connections to the compute nodes (just ommit the vncnodes setion if you don't want this and it will not be configured)::
 
-       [controllers]
-       vcontroller ansible_host=10.15.255.254
+       [logins]
+       login01 ansible_host=10.15.255.231
+       login02 ansible_host=10.15.255.232
        [staticcomputes]
        node0001 ansible_host=10.15.0.1
        node0002 ansible_host=10.15.0.2
@@ -246,6 +251,8 @@ This can be auto-populated by openstack heat as the hash name suggests. It assum
        vcontroller2 ansible_host=10.15.255.253
        [staticcomputes]
        node0001 ansible_host=10.15.0.1
+
+
        node0002 ansible_host=10.15.0.2
 
 11. Start TrinityX installation::
