@@ -15,5 +15,5 @@ mellanox_package: 'mlnx-ofed-hpc'
 # mlnx-ofed-vma-vpi:    Installs packages required by VMA to support VPI.
 
 mellanox_version: 'latest'
-mellanox_os_ver: 'rhel7.6'
+mellanox_os_ver: 'rhel7.7'
 mellanox_repo: http://linux.mellanox.com/public/repo/mlnx_ofed/{{mellanox_version}}/{{mellanox_os_ver}}/mellanox_mlnx_ofed.repo

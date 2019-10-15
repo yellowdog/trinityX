@@ -251,9 +251,9 @@ This can be auto-populated by openstack heat as the hash name suggests. It assum
        vcontroller2 ansible_host=10.15.255.253
        [staticcomputes]
        node0001 ansible_host=10.15.0.1
-
-
        node0002 ansible_host=10.15.0.2
+
+
 
 11. Start TrinityX installation::
 
@@ -290,18 +290,21 @@ Descriptions to configuration options are given inside ``controller.yml`` and ``
 * DHCP dynamic range
 * Firewall settings
 * mellanox ofed
-  * if you want this installed on only the 
 
-You can also choose which components to exclude from the installation by modifying the ``controller.yml`` ``.yml`` playbook.
+You can also choose which components to exclude from the installation by modifying the ``controller.yml`` ``trinity-image-setup.yml`` playbook.
 
 OpenHPC Support
 ===============
 
-The OpenHPC project provides a framework for building, managing and maintain HPC clusters. This project provides packages for most popular scientific and HPC applications. TrinityX can integrate this effort into it's ecosystem. In order to enable this integration set the flag ``enable_openhpc`` in ``group_vars/all`` to ``true``. 
+The OpenHPC project provides a framework for building, managing and maintain HPC clusters. This project provides packages for most popular scientific and HPC applications. TrinityX can integrate this effort into it's ecosystem. In order to enable this integration set the flag ``enable_openhpc`` in ``group_vars/all`` to ``true`` (this is now default).
 Currently when OpenHPC is enabled standart environment modules, slurm and pdsh from TrinityX gets disabled and OpenHPC versions are used instead. 
 
+Note that to opimise deploy time for use in automated cloud deployments, we install a MINIMAL OpenHPC environment by default, run the post deploy Install_default_openHPC_packages.yml playbook to install the standard openhpc packages and the gnu8 compiled tools, customise the yml to change the defaults. These variables can be overridden in group_vars/all if you want to do this in one step. The last step in an automated deployment can be to start this playbook in the background so that people can login and start using the system while the extra packages are being installed.
+
+
+
 Steps to install TrinityX with Luna
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Install CentOS Minimal on your controller(s)
 
@@ -354,6 +357,7 @@ Steps to install TrinityX with Luna
        [controllers]
        controller1 ansible_host=10.141.255.254
        controller2 ansible_host=10.141.255.253
+       
 
 11. Start TrinityX installation::
 

@@ -158,10 +158,10 @@ enable_openhpc: true
 # use aws NFS instance for cloud controllers
 
 use_aws_nfs: false
-# fix CentOS version if using the vault repo (recommended)
-centos_vers: 7.6
+# fix CentOS version if using the vault repo, otherwise set this to the current version so that you get the right mlnx ofed version for your kernel
+centos_vers: 7.7
 centos_fullvers: '{{centos_vers}}.1810'
-use_centos_vault: true
+use_centos_vault: false
 
 # set mellanox OFED Defaults rembember you can override per node type in group_vars/<group>
 use_mellanox_ofed: false
