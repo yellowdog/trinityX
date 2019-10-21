@@ -16,7 +16,7 @@ project_id: '000000'
 # Do we want HA?
 # Set to 'False' to disable HA, set to 'True' to enable it.
 
-ha: true
+ha: false
 
 
 # Should we use content of the installation CD/USB-stick
@@ -35,7 +35,7 @@ trix_domain: cluster
 # In an HA pair, those are the hostname and IP for the first controller.
 # Those variables are required, with or without HA.
 
-trix_ctrl1_ip: 10.141.255.254
+trix_ctrl1_ip: 192.168.0.4
 trix_ctrl1_bmcip: 10.148.255.254
 trix_ctrl1_heartbeat_ip: 10.146.255.254
 trix_ctrl1_hostname: controller1
@@ -102,11 +102,9 @@ resolv_search_domains: '{{ trix_domain }} ipmi'
 # Only public tcp/udp ports are allowed on the public interfaces
 # whereas everything is allowed on the trusted interfaces
 
-firewalld_public_interfaces: [eth0]
-firewalld_trusted_interfaces: [eth1]
-firewalld_public_tcp_ports: [22, 443]
-firewalld_public_udp_ports: []
-
+firewalld_public_interfaces:
+firewalld_trusted_interfaces: ['{{ ansible_default_ipv4.interface }}']
+firewalld_public_tcp_ports:
 
 # All of the following are variables that override values for roles
 # that are only applied as a dependency for another role.
