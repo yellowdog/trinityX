@@ -1,6 +1,6 @@
 [controllers]
 controller1
 [staticcomputes]
-node001
-node002
-node003
+node0001
+node0002
+node0003

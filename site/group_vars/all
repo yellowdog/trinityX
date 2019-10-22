@@ -59,7 +59,7 @@ trix_ctrl_hostname: controller
 # Internal network definitions and the DHCP range used to to PXE boot
 # the compute nodes.
 
-trix_cluster_net: 10.141.0.0
+trix_cluster_net: 192.168.0.0
 trix_cluster_netprefix: 16
 trix_cluster_dhcp_start: 10.141.128.0
 trix_cluster_dhcp_end: 10.141.140.0
@@ -88,6 +88,17 @@ trix_home: '{{ trix_root }}/home'
 trix_repos: '{{ trix_root }}/repos'
 trix_ohpc: '{{ trix_root }}/ohpc'
 
+
+# Heat stuff
+heat:
+  ctrl_ip: '{{ trix_ctrl_ip }}'
+  ctrl_hostname: '{{ trix_ctrl_hostname }}'
+  static_compute_partition_name: defq
+  static_compute_host_name_base: node
+  static_compute_start_number: 1
+  static_compute_initial_number: 20
+  static_compute_max_number: 20
+  static_compute_min_number: 1
 
 # Backend type and block device to use for the specified backend.
 
@@ -152,6 +163,14 @@ additional_env_modules: []
 # Install userspace packages from OpenHPC project
 
 enable_openhpc: true
+
+# populate the zones from inventory
+
+# the following settings are essential if not using luna, they tell ansible to take over configuring resolv.conf on all nodes and dns zones on on the controller and rename compute instances
+
+configure_resolveconf: true
+build_zones_from_inventory: true
+use_inventory_hostname: true
 
 # use aws NFS instance for cloud controllers
 
