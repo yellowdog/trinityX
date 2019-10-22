@@ -102,9 +102,9 @@ resolv_search_domains: '{{ trix_domain }} ipmi'
 # Only public tcp/udp ports are allowed on the public interfaces
 # whereas everything is allowed on the trusted interfaces
 
-firewalld_public_interfaces:
+firewalld_public_interfaces: []
 firewalld_trusted_interfaces: ['{{ ansible_default_ipv4.interface }}']
-firewalld_public_tcp_ports:
+firewalld_public_tcp_ports: []
 
 # All of the following are variables that override values for roles
 # that are only applied as a dependency for another role.
