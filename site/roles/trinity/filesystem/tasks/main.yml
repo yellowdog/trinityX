@@ -20,23 +20,23 @@
 
 
   # add some stuff to mount a weka fs
-- block:
-  - name: format the shared block device
-    filesystem:
-      fstype: xfs
-      dev: '{{ shared_fs_device }}'
-
-
-  - name: get the shared block device UUID
-    shell: blkid | grep '{{ shared_fs_device }}' | awk '{ print $2 }' | tr -d '"'
-    register: blockdev_uuid
-    changed_when: false
-
-  - name: mount the shared block device on '{{ trix_root }}'
-    mount:
-      src: '{{ shared_fs_device }}'
-      path: '{{ trix_root }}'
-      fstype: '{{ trix_root_local_fs }}'
-      state: mounted
-  when: trix_root_use_local_block|bool
+#- block:
+#  - name: format the shared block device
+#    filesystem:
+#      fstype: xfs
+#      dev: '{{ shared_fs_device }}'
+#
+#
+#  - name: get the shared block device UUID
+#    shell: blkid | grep '{{ shared_fs_device }}' | awk '{ print $2 }' | tr -d '"'
+#    register: blockdev_uuid
+#    changed_when: false
+#
+#  - name: mount the shared block device on '{{ trix_root }}'
+#    mount:
+#      src: '{{ shared_fs_device }}'
+#      path: '{{ trix_root }}'
+#      fstype: '{{ trix_root_local_fs }}'
+#      state: mounted
+#  when: trix_root_use_local_block|bool
 

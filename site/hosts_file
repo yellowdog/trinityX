@@ -1,0 +1,11 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.2.0 controller1
+192.168.2.1 node0001
+192.168.2.2 node0002
+192.168.2.3 node0003
+192.168.2.4 node0004
+# BEGIN ANSIBLE MANAGED BLOCK
+192.168.2.0    controller1.cluster controller1
+# END ANSIBLE MANAGED BLOCK
