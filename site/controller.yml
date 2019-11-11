@@ -70,13 +70,13 @@
         - repos
       when: use_mellanox_ofed|bool
 
-    - role: trinity/rdma-centos
-      tags: rdma-centos
-      when: not use_mellanox_ofed|bool
+#    - role: trinity/rdma-centos
+#      tags: rdma-centos
+#      when: not use_mellanox_ofed|bool
 
-    - role: trinity/mlnx_ofed
-      tags: mlnx-ofed
-      when: use_mellanox_ofed|bool
+#    - role: trinity/mlnx_ofed
+#      tags: mlnx-ofed
+#      when: use_mellanox_ofed|bool
       
     - role: trinity/cv_support
       tags: cv_support
@@ -151,10 +151,10 @@
       tags: pdsh
 
     - role: trinity/ssl-cert
-      ssl_cert_country: 'NL'
-      ssl_cert_locality: 'Amsterdam'
-      ssl_cert_organization: 'ClusterVision B.V.'
-      ssl_cert_state: 'Noord Holland'
+      ssl_cert_country: 'UK'
+      ssl_cert_locality: 'London'
+      ssl_cert_organization: 'Yellowdog'
+      ssl_cert_state: 'London'
       ssl_cert_altname: '{{ trix_ctrl_hostname }}.{{ trix_domain }}'
       ssl_cert_days: '3650'
       tags: ssl-cert

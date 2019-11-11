@@ -12,7 +12,6 @@ trix_version: '11'
 
 project_id: '000000'
 
-
 # Do we want HA?
 # Set to 'False' to disable HA, set to 'True' to enable it.
 
@@ -35,7 +34,7 @@ trix_domain: cluster
 # In an HA pair, those are the hostname and IP for the first controller.
 # Those variables are required, with or without HA.
 
-trix_ctrl1_ip: 192.168.2.0
+trix_ctrl1_ip: 192.168.0.5
 trix_ctrl1_bmcip: 10.148.255.254
 trix_ctrl1_heartbeat_ip: 10.146.255.254
 trix_ctrl1_hostname: controller1
@@ -171,12 +170,13 @@ enable_openhpc: true
 configure_resolveconf: true
 build_zones_from_inventory: true
 use_inventory_hostname: true
+ssl_cert_group_id: 890
 
 # use aws NFS instance for cloud controllers
 
 use_aws_nfs: false
 # fix CentOS version if using the vault repo, otherwise set this to the current version so that you get the right mlnx ofed version for your kernel
-centos_vers: 7.7
+centos_vers: 7.5
 centos_fullvers: '{{centos_vers}}.1810'
 use_centos_vault: false
 

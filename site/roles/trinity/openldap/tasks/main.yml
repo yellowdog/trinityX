@@ -160,7 +160,7 @@
 
   - name: Load OpenLDAP local schema
     command: >
-      ldapadd -x -H ldaps:// -D "cn=manager,dc=local" -w {{ openldap_root_pwd }}
+      ldapadd -x -H ldapi:/// -D "cn=manager,dc=local" -w {{ openldap_root_pwd }}
                              -f /etc/openldap/schema/local_schema.ldif
     ignore_errors: yes
 
