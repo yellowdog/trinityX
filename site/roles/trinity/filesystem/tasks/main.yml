@@ -13,7 +13,7 @@
     src: '{{ trix_root_ext_nfs_hostname }}:/'
     path: '{{ trix_root_nfs_ext_path}}'
     opts: '{{ trix_root_ext_nfs_opts }}'
-    fstype: nfs4
+    fstype: '{{ trix_root_ext_nfs_protocol }}'
     state: mounted
   when: trix_root_use_ext_nfs
 
