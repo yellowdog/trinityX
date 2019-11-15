@@ -10,8 +10,8 @@
 
 - name: mount the shared NFS file system
   mount:
-    src: '{{ trix_root_ext_nfs_hostname }}:/'
-    path: '{{ trix_root_nfs_ext_path}}'
+    src: '{{ trix_root_ext_nfs_path }}'
+    path: '{{ trix_root}}'
     opts: '{{ trix_root_ext_nfs_opts }}'
     fstype: '{{ trix_root_ext_nfs_protocol }}'
     state: mounted
