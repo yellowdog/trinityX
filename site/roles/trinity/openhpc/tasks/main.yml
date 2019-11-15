@@ -233,6 +233,8 @@
   when: primary | default(True) and ansible_connection not in 'lchroot'
   notify:
     - Export NFS
+  tags:
+  - nfs
 
 - file:
     src: '{{ nfs_exports_path }}/ohpc.exports'
@@ -242,3 +244,5 @@
   when: primary | default(True) and ansible_connection not in 'lchroot'
   notify:
     - Export NFS
+  tags:
+  - nfs
