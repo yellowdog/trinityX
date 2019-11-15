@@ -76,13 +76,13 @@
     - '{{ trix_ctrl_ip }}'
     tags: chrony
 
-  - role: trinity/rdma-centos
-    tags: rdma-centos
-    when: not use_mellanox_ofed|bool
+  # - role: trinity/rdma-centos
+  #  tags: rdma-centos
+  #  when: not use_mellanox_ofed|bool
 
-  - role: trinity/mlnx_ofed
-    tags: mlnx-ofed
-    when: use_mellanox_ofed|bool
+  # - role: trinity/mlnx_ofed
+  #   tags: mlnx-ofed
+  #   when: use_mellanox_ofed|bool
 
   - role: trinity/trix-tree
     tags: trix-tree
