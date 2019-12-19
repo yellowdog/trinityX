@@ -29,6 +29,8 @@
     when: not ha|default(False)
 
   tags: always
+  when: '{{ True if "controllers" in group_names else False }}'
+
 
 - name: Toggle selinux state
   selinux:
